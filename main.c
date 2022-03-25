@@ -1,13 +1,13 @@
 /* main.c */
 /* teste do tipo de dados meudouble */
 #include <stdio.h>
-#include "meu_complexo.h"
+#include "meu_racional.h"
 
 int main ()
 {
 
-/** ------ PARTE ORIGINAL DO PROGRAMA: MEU_COMPLEXO ------*/
-	MeuComplexo_pt ptC1=NULL, ptC2=NULL, ptC3=NULL;
+/** ------ PARTE ORIGINAL DO PROGRAMA: MEU_Racional ------*/
+	MeuRacional_pt ptC1=NULL, ptC2=NULL, ptC3=NULL;
 
 	/*veja que aqui neste ponto faço chamadas de algumas funções
 	 * através dos ponteiros que estão na tabela vtbl (ponteiro "metodo")
@@ -17,7 +17,7 @@ int main ()
 	 * MeuDouble_pt */
 
 
-	ptC1 = Complexo_constroi (ptC1, 10.0, 20.0);
+	ptC1 = Racional_constroi (ptC1, 10.0, 20.0);
 
 	ptC2 = ptC1->Metodo->copia (ptC1);
 
@@ -25,7 +25,7 @@ int main ()
 				ptC1->Metodo->imprime (ptC1),
 				ptC2->Metodo->imprime (ptC2));
 
-    ptC3 = Complexo_constroi (ptC3, 0.0, 0.0);
+    ptC3 = Racional_constroi (ptC3, 0.0, 0.0);
     ptC3 = ptC2->Metodo->atribui (ptC2, ptC3);
     printf ("ptC3 recebeu o valor de Y2 = %s \n",
 				ptC3->Metodo->imprime (ptC3));
@@ -78,7 +78,7 @@ int main ()
 
 	ptC1->Metodo->destroi (ptC1);
 	ptC2->Metodo->destroi (ptC2);
-    ptC3->Metodo->destroi (ptC3);
+   ptC3->Metodo->destroi (ptC3);
 	return (0);
 }
 

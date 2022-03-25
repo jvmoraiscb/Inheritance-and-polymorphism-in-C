@@ -3,7 +3,7 @@
 *  Application Note: "Object-Oriented Programming in C"
 * https://www.state-machine.com/doc/AN_OOP_in_C.pdf
 *
-* Aqui se implementa o número do tipo "complexo"
+* Aqui se implementa o número do tipo "racional"
 *
 * numero.h definiu a interface do "número_t virtual"
 * que é usada aqui
@@ -14,13 +14,13 @@
 #include <string.h>
 #include <assert.h>
 #include <math.h>
-#include "meu_complexo.h"
+#include "meu_racional.h"
 
 /*------------------------------------------------------------------*
- *  IMPLEMENTACAO DAS FUNCOES VIRTUAIS DE "COMPLEXO"                  *
+ *  IMPLEMENTACAO DAS FUNCOES VIRTUAIS DE "RACIONAL"                *
  * Uma função virtual é uma função que é declarada (mas não         *
  * implementada em uma classe base (NO CASO, NUMERO) e redefinida   *
- * pela classe derivada (NO CASO, COMPLEXO).                          *
+ * pela classe derivada (NO CASO, RACIONAL).                        *
  * Para declarar uma função como sendo virtual, é preciso associá-la*
  * com uma entrada da tabela vtbl da classe base.                   *
  * A redefinição da função na classe derivada sobrepõe a definição  *
@@ -111,91 +111,91 @@ static  void destroi_ (Numero_t   *   me);
 
 
 /*---------------------------------------------------------------------*
- * IMPLEMENTAÇÃO DA INTERFACE PÚBLICA das funções virtuais de MeuDouble*
+ * IMPLEMENTAÇÃO DA INTERFACE PÚBLICA das funções virtuais de Meulong int*
  * -------------------------------------------------------------------*/
-static  MeuComplexo_pt Copia_ (MeuComplexo_t const * const  me);
+static  MeuRacional_pt Copia_ (MeuRacional_t const * const  me);
 
-static  MeuComplexo_pt Atribui_ (MeuComplexo_t const * const  me,
-							     MeuComplexo_t       * const  outro) ;
+static  MeuRacional_pt Atribui_ (MeuRacional_t const * const  me,
+							     MeuRacional_t       * const  outro) ;
 
-static  MeuComplexo_pt Soma_  (MeuComplexo_t const * const  me,
-							   MeuComplexo_t const * const  outro,
-							   MeuComplexo_t       * const  res);
+static  MeuRacional_pt Soma_  (MeuRacional_t const * const  me,
+							   MeuRacional_t const * const  outro,
+							   MeuRacional_t       * const  res);
 
-static  MeuComplexo_pt Subt_  (MeuComplexo_t const * const  me,
-							   MeuComplexo_t const * const  outro,
-							   MeuComplexo_t       * const  res);
+static  MeuRacional_pt Subt_  (MeuRacional_t const * const  me,
+							   MeuRacional_t const * const  outro,
+							   MeuRacional_t       * const  res);
 
-static  MeuComplexo_pt Mult_  ( MeuComplexo_t const * const  me,
-								MeuComplexo_t const * const  outro,
-								MeuComplexo_t       * const  res);
+static  MeuRacional_pt Mult_  ( MeuRacional_t const * const  me,
+								MeuRacional_t const * const  outro,
+								MeuRacional_t       * const  res);
 
-static  MeuComplexo_pt Divd_  ( MeuComplexo_t const * const  me,
-								MeuComplexo_t const * const  outro,
-								MeuComplexo_t       * const  res);
+static  MeuRacional_pt Divd_  ( MeuRacional_t const * const  me,
+								MeuRacional_t const * const  outro,
+								MeuRacional_t       * const  res);
 
-static  MeuComplexo_pt Ac_Soma_ (MeuComplexo_t       * const  me,
-								 MeuComplexo_t const * const  outro);
+static  MeuRacional_pt Ac_Soma_ (MeuRacional_t       * const  me,
+								 MeuRacional_t const * const  outro);
 
-static  MeuComplexo_pt Ac_Subt_ (MeuComplexo_t       * const  me,
-								 MeuComplexo_t const * const  outro);
+static  MeuRacional_pt Ac_Subt_ (MeuRacional_t       * const  me,
+								 MeuRacional_t const * const  outro);
 
-static  MeuComplexo_pt Ac_Mult_ (MeuComplexo_t       * const  me,
-								 MeuComplexo_t const * const  outro);
+static  MeuRacional_pt Ac_Mult_ (MeuRacional_t       * const  me,
+								 MeuRacional_t const * const  outro);
 
-static  MeuComplexo_pt Ac_Divd_ (MeuComplexo_t       * const  me,
-								 MeuComplexo_t const * const  outro);
+static  MeuRacional_pt Ac_Divd_ (MeuRacional_t       * const  me,
+								 MeuRacional_t const * const  outro);
 
-static  int	Compara_ 	    (MeuComplexo_t const * const  me,
-							 MeuComplexo_t const * const  outro);
+static  int	Compara_ 	    (MeuRacional_t const * const  me,
+							 MeuRacional_t const * const  outro);
 
-static  char *      Imprime_  (MeuComplexo_t const * const  me);
+static  char *      Imprime_  (MeuRacional_t const * const  me);
 
-static  void        Destroi_ (MeuComplexo_t  *   me);
+static  void        Destroi_ (MeuRacional_t  *   me);
 
 /* ------------------------------------------------------- *
- * funções que são típicas do numero complexo, mas não são *
+ * funções que são típicas do numero Racional, mas não são *
  * funcoes da classe virtual básica número                 *
  * protótipos das funçoes get e set, por exemplo           *
  *---------------------------------------------------------*/
-static 	void     Get_ (MeuComplexo_t  const * const me,
-					 double * valorReal,
-					 double * valorImag);
+static 	void     Get_ (MeuRacional_t  const * const me,
+					 long int * valorNum,
+					 long int * valorDen);
 
-static 	void     Set_ (MeuComplexo_t   * const me,
-					 double valorReal,
-					 double valorImag);
+static 	void     Set_ (MeuRacional_t   * const me,
+					 long int valorNum,
+					 long int valorDen);
 
-static 	double   GetReal_ (MeuComplexo_t  const * const me);
+static 	long int   GetReal_ (MeuRacional_t  const * const me);
 
-static 	void     SetReal_ (MeuComplexo_t   * const me,
-					     double valorReal);
+static 	void     SetReal_ (MeuRacional_t   * const me,
+					     long int valorNum);
 
-static 	double   GetImag_ (MeuComplexo_t  const * const me);
+static 	long int   GetImag_ (MeuRacional_t  const * const me);
 
-static 	void     SetImag_ (MeuComplexo_t   * const me,
-					       double valorImag);
-
-static
-MeuComplexo_pt  Conjugado_ (MeuComplexo_t   const * const me,
-	                        MeuComplexo_t         * const conj);
+static 	void     SetImag_ (MeuRacional_t   * const me,
+					       long int valorDen);
 
 static
-double  Modulo_ (MeuComplexo_t   const * const me);
+MeuRacional_pt  Conjugado_ (MeuRacional_t   const * const me,
+	                        MeuRacional_t         * const conj);
 
 static
-double Argumento_ (MeuComplexo_t   const * const me);
+long int  Modulo_ (MeuRacional_t   const * const me);
+
+static
+long int Argumento_ (MeuRacional_t   const * const me);
 
  /*---------------------------------------------*
  * implementação do construtor                  *
  * ---------------------------------------------*/
-MeuComplexo_pt Complexo_constroi (MeuComplexo_pt  me,
-							      double valorReal,
-							      double valorImag)
+MeuRacional_pt Racional_constroi (MeuRacional_pt  me,
+							      long int valorNum,
+							      long int valorDen)
 {
 	/* tabela de funções virtuais da classe Numero_t *
 	 * Esta tabela estática será compartilhada por todos os números *
-	 * da classe MeuComplexo_t                                        */
+	 * da classe MeuRacional_t                                        */
 
     static struct NumeroVtbl const vtbl = {
         &copia_,
@@ -213,19 +213,19 @@ MeuComplexo_pt Complexo_constroi (MeuComplexo_pt  me,
         &destroi_
      };
 
-         me = (MeuComplexo_pt) Num_constroi ((Numero_pt) me);
+         me = (MeuRacional_pt) Num_constroi ((Numero_pt) me);
                         /*constroi o Numero_t  */
-                        /* no início de MeuComplexo_t  */
+                        /* no início de MeuRacional_t  */
 
          me->super.metodo = &vtbl;
-            /* metodo aponta para vtbl de MeuComplexo_t */
+            /* metodo aponta para vtbl de MeuRacional_t */
             /* as operações do "numero", a partir de agora,     */
-            /* são as operações sobre double                    */
+            /* são as operações sobre long int                    */
 
      /* Agora, mais uma tabela estática a ser compartilhada pelos     *
-      * "MeuComplexo_t": a tabela de interface                          *
+      * "MeuRacional_t": a tabela de interface                          *
       * note que a estrutura Interface incorpora os métodos Get e Set */
-     static struct MeuComplexo_Interface_st const interface = {
+     static struct MeuRacional_Interface_st const interface = {
         &Copia_,
         &Atribui_,
         &Soma_,
@@ -251,25 +251,25 @@ MeuComplexo_pt Complexo_constroi (MeuComplexo_pt  me,
      };
 
      me->Metodo = &interface;
-            /* metodo aponta para vtbl de MeuComplexo_t */
+            /* metodo aponta para vtbl de MeuRacional_t */
             /* as operações do "numero", a partir de agora,     */
-            /* são as operações sobre double                    */
+            /* são as operações sobre long int                    */
 
-    /* aloca dinamicamente uma area de memoria para um double  */
+    /* aloca dinamicamente uma area de memoria para um long int  */
     /* e atribui o endereço de memória alocada para o ponteiro */
-    /* valor que está dentro da estrutura MeuComplexo_st         */
-	me->valor = (double *) malloc (2*sizeof(double));
+    /* valor que está dentro da estrutura MeuRacional_st         */
+	me->valor = (long int *) malloc (2*sizeof(long int));
 	if (me->valor == NULL)
 	{	/*erro!!! não conseguiu alocar */
 	    printf ("Erro na alocação de memória em Num_Constroi");
-	    printf ("Nao alocou o valor double");
+	    printf ("Nao alocou o valor long int");
 	    exit (1);
 	}
 
-	/* copia o double passado como parâmetro */
+	/* copia o long int passado como parâmetro */
     /* no endereco de memoria recém alocado  */
-     me->valor[0] = valorReal;
-     me->valor[1] = valorImag;
+     me->valor[0] = valorNum;
+     me->valor[1] = valorDen;
 
      return (me);
 
@@ -277,10 +277,10 @@ MeuComplexo_pt Complexo_constroi (MeuComplexo_pt  me,
 	 * quando implementarmos o "meu_float", valor apontará para float
      * quando implementarmos o racional,   valor apontará para
      * um vetor com dois "long int"
-     * quando implementarmos o complexo,   valor apontará para
-     * um vetor com dois "double"
+     * quando implementarmos o Racional,   valor apontará para
+     * um vetor com dois "long int"
      * quando implementarmos o quaternion, valor apontará para
-     * um vetor com quatro "double"
+     * um vetor com quatro "long int"
      * Por isso, cada tipo específico de número terminará de implementar
      * o seu construtor....
      *---------------------------------------------------------------*/
@@ -291,29 +291,29 @@ MeuComplexo_pt Complexo_constroi (MeuComplexo_pt  me,
  * implementação do set e get                   *
  * ---------------------------------------------*/
  static inline
-void Get_ (MeuComplexo_t  const * const me,
-			double               * ptReal,
-	        double 				 * ptImag)
+void Get_ (MeuRacional_t  const * const me,
+			long int              	* ptNum,
+	        long int 				* ptDen)
 
 {
-	 *ptReal = (me->valor[0]);
-	 *ptImag = (me->valor[1]);
+	 *ptNum = (me->valor[0]);
+	 *ptDen = (me->valor[1]);
 
 }
 
 
 static inline
-void Set_ (MeuComplexo_t       * const me,
-			double                valorReal,
-	        double 				  valorImag)
+void Set_ (MeuRacional_t       * const me,
+			long int                valorNum,
+	        long int 				valorDen)
 {
-	me->valor[0] = valorReal;
-	me->valor[1] = valorImag;
+	me->valor[0] = valorNum;
+	me->valor[1] = valorDen;
 
 }
 
 static inline
-double GetReal_ (MeuComplexo_t  const * const me)
+long int GetReal_ (MeuRacional_t  const * const me)
 {
 	 return ( (me->valor[0]));
 
@@ -321,30 +321,30 @@ double GetReal_ (MeuComplexo_t  const * const me)
 
 
 static inline
-void SetReal_ (MeuComplexo_t     * const me,
-			double                valorReal)
+void SetReal_ (MeuRacional_t     * const me,
+			long int                valorNum)
 {
-	me->valor[0] = valorReal;
+	me->valor[0] = valorNum;
 
 }
 
 static inline
-double  GetImag_ (MeuComplexo_t  const * const me)
+long int  GetImag_ (MeuRacional_t  const * const me)
 {
 	 return (me->valor[1]);
 }
 
 
 static inline
-void SetImag_ (MeuComplexo_t       * const me,
-	           double 				  valorImag)
+void SetImag_ (MeuRacional_t       * const me,
+	           long int 				  valorDen)
 {
-	me->valor[1] = valorImag;
+	me->valor[1] = valorDen;
 }
 
 static
-MeuComplexo_pt  (Conjugado_)  (MeuComplexo_t   const * const me,
-	                      MeuComplexo_t         * const conj)
+MeuRacional_pt  (Conjugado_)  (MeuRacional_t   const * const me,
+	                      MeuRacional_t         * const conj)
 {
 	conj->valor[0] =   me->valor[0];
 	conj->valor[1] = - (me->valor[1]);
@@ -352,13 +352,13 @@ MeuComplexo_pt  (Conjugado_)  (MeuComplexo_t   const * const me,
 }
 
 static
-double  Modulo_ (MeuComplexo_t   const * const me)
+long int  Modulo_ (MeuRacional_t   const * const me)
 {
    return( sqrt(GetReal_(me)*(GetReal_(me)) + (GetImag_(me)*(GetImag_(me))  )));
 }
 
 static
-double Argumento_ (MeuComplexo_t   const * const me)
+long int Argumento_ (MeuRacional_t   const * const me)
 {
     return (atan (GetImag_(me) / GetReal_(me) ));
 }
@@ -366,9 +366,9 @@ double Argumento_ (MeuComplexo_t   const * const me)
  * IMPLEMENTAÇÃO DAS FUNÇÕES VIRTUAIS           *
  * -----------------------------------------------------*/
 static inline
-MeuComplexo_pt Copia_ (MeuComplexo_t const * const  me)
+MeuRacional_pt Copia_ (MeuRacional_t const * const  me)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          copia_ ((Numero_pt) me));
 }
 
@@ -377,19 +377,19 @@ MeuComplexo_pt Copia_ (MeuComplexo_t const * const  me)
 {
 	assert (me != NULL);
 	Numero_pt outro = NULL;
-	outro = (Numero_pt) Complexo_constroi
-							((MeuComplexo_pt) outro,
-							  GetReal_((MeuComplexo_pt) me),
-							  GetImag_((MeuComplexo_pt) me));
+	outro = (Numero_pt) Racional_constroi
+							((MeuRacional_pt) outro,
+							  GetReal_((MeuRacional_pt) me),
+							  GetImag_((MeuRacional_pt) me));
 	return outro;
 }
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Atribui_(MeuComplexo_t const * const me,
-					  MeuComplexo_t       * const  outro )
+MeuRacional_pt Atribui_(MeuRacional_t const * const me,
+					  MeuRacional_t       * const  outro )
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          atribui_ ((Numero_pt) me,
 								 (Numero_pt) outro));
 }
@@ -398,19 +398,19 @@ static
  Numero_pt atribui_ (Numero_t const * const  me,
 						  Numero_t       * const  outro)
  {
-	 Set_( (MeuComplexo_pt) outro,
-	       GetReal_((MeuComplexo_pt) me),
-	       GetImag_ ( (MeuComplexo_pt) me) );
+	 Set_( (MeuRacional_pt) outro,
+	       GetReal_((MeuRacional_pt) me),
+	       GetImag_ ( (MeuRacional_pt) me) );
 
 	 return (Numero_pt) outro;
  }
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Soma_  ( MeuComplexo_t const * const  me,
-						   MeuComplexo_t const * const  outro,
-						   MeuComplexo_t       * const  res)
+MeuRacional_pt Soma_  ( MeuRacional_t const * const  me,
+						   MeuRacional_t const * const  outro,
+						   MeuRacional_t       * const  res)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          soma_ ((Numero_pt) me,
 					 (Numero_pt) outro,
 					 (Numero_pt) res));
@@ -420,11 +420,11 @@ static  Numero_pt soma_  ( Numero_t const * const  me,
 								Numero_t const * const  outro,
 								Numero_t       * const  res)
 {
-	Set_((MeuComplexo_pt) res,
-				GetReal_((MeuComplexo_pt) me) +
-				GetReal_((MeuComplexo_pt) outro),
-				GetImag_((MeuComplexo_pt) me) +
-				GetImag_((MeuComplexo_pt) outro) );
+	Set_((MeuRacional_pt) res,
+				GetReal_((MeuRacional_pt) me) +
+				GetReal_((MeuRacional_pt) outro),
+				GetImag_((MeuRacional_pt) me) +
+				GetImag_((MeuRacional_pt) outro) );
 
 	return (Numero_pt) res;
 }
@@ -432,11 +432,11 @@ static  Numero_pt soma_  ( Numero_t const * const  me,
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Subt_  (      MeuComplexo_t const * const  me,
-						   MeuComplexo_t const * const  outro,
-						   MeuComplexo_t       * const  res)
+MeuRacional_pt Subt_  (      MeuRacional_t const * const  me,
+						   MeuRacional_t const * const  outro,
+						   MeuRacional_t       * const  res)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          subt_ ((Numero_pt) me,
 							  (Numero_pt) outro,
 							  (Numero_pt) res));
@@ -445,21 +445,21 @@ static  Numero_pt subt_  (	Numero_t const * const  me,
 								    Numero_t const * const  outro,
 								    Numero_t       * const  res)
 {
-		Set_((MeuComplexo_pt) res,
-				GetReal_((MeuComplexo_pt) me) -
-				GetReal_((MeuComplexo_pt) outro),
-				GetImag_((MeuComplexo_pt) me) -
-				GetImag_((MeuComplexo_pt) outro) );
+		Set_((MeuRacional_pt) res,
+				GetReal_((MeuRacional_pt) me) -
+				GetReal_((MeuRacional_pt) outro),
+				GetImag_((MeuRacional_pt) me) -
+				GetImag_((MeuRacional_pt) outro) );
 		return (Numero_pt) res;
 }
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Mult_  ( MeuComplexo_t const * const  me,
-						   MeuComplexo_t const * const  outro,
-						   MeuComplexo_t       * const  res)
+MeuRacional_pt Mult_  ( MeuRacional_t const * const  me,
+						   MeuRacional_t const * const  outro,
+						   MeuRacional_t       * const  res)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          mult_ ((Numero_pt) me,
 									  (Numero_pt) outro,
 									  (Numero_pt) res));
@@ -469,23 +469,23 @@ static  Numero_pt mult_  ( Numero_t const * const  me,
 								Numero_t const * const  outro,
 								Numero_t       * const  res)
 {
-     MeuComplexo_pt  temp = NULL;
-     temp = Complexo_constroi(temp, 0.0,0.0);
+     MeuRacional_pt  temp = NULL;
+     temp = Racional_constroi(temp, 0.0,0.0);
 
 	 SetReal_(temp,
-				(GetReal_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) -
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) )  );
+				(GetReal_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) -
+				(GetImag_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) )  );
 
 	 SetImag_ (temp,
-				(GetReal_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) ) +
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) );
+				(GetReal_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) ) +
+				(GetImag_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) );
 
-     SetReal_ ((MeuComplexo_pt)res, GetReal_(temp));
-     SetImag_ ((MeuComplexo_pt)res, GetImag_(temp));
+     SetReal_ ((MeuRacional_pt)res, GetReal_(temp));
+     SetImag_ ((MeuRacional_pt)res, GetImag_(temp));
 	 Destroi_(temp);
 
 	 return ( (Numero_pt) res);
@@ -493,11 +493,11 @@ static  Numero_pt mult_  ( Numero_t const * const  me,
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Divd_  ( MeuComplexo_t const * const  me,
-						   MeuComplexo_t const * const  outro,
-						   MeuComplexo_t       * const  res)
+MeuRacional_pt Divd_  ( MeuRacional_t const * const  me,
+						   MeuRacional_t const * const  outro,
+						   MeuRacional_t       * const  res)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          divd_ ((Numero_pt) me,
                      (Numero_pt) outro,
                      (Numero_pt) res));
@@ -507,38 +507,38 @@ static  Numero_pt divd_  (	Numero_t const * const  me,
 								Numero_t const * const  outro,
 								Numero_t       * const  res)
 {
-	double quociente;
-	quociente = GetReal_((MeuComplexo_pt) outro) *
-	            GetReal_((MeuComplexo_pt) outro)    +
-	            GetImag_((MeuComplexo_pt) outro) *
-	            GetImag_((MeuComplexo_pt) outro) ;
+	long int quociente;
+	quociente = GetReal_((MeuRacional_pt) outro) *
+	            GetReal_((MeuRacional_pt) outro)    +
+	            GetImag_((MeuRacional_pt) outro) *
+	            GetImag_((MeuRacional_pt) outro) ;
 
-	MeuComplexo_pt  temp = NULL;
-	temp = Complexo_constroi(temp, 0.0,0.0);
+	MeuRacional_pt  temp = NULL;
+	temp = Racional_constroi(temp, 0.0,0.0);
 
 	 SetReal_(temp,
-				((GetReal_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) -
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) ) )/quociente );
+				((GetReal_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) -
+				(GetImag_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) ) )/quociente );
 
 	 SetImag_ (temp,
-               ((GetReal_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) ) +
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) )/quociente );
+               ((GetReal_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) ) +
+				(GetImag_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) )/quociente );
 
-     SetReal_ ((MeuComplexo_pt)res, GetReal_(temp));
-     SetImag_ ((MeuComplexo_pt)res, GetImag_(temp));	 Destroi_(temp);
+     SetReal_ ((MeuRacional_pt)res, GetReal_(temp));
+     SetImag_ ((MeuRacional_pt)res, GetImag_(temp));	 Destroi_(temp);
 	 return ( (Numero_pt) res);
 }
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Ac_Soma_  ( MeuComplexo_t  * const  me,
-						 MeuComplexo_t const * const  outro)
+MeuRacional_pt Ac_Soma_  ( MeuRacional_t  * const  me,
+						 MeuRacional_t const * const  outro)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          ac_soma_ ((Numero_pt) me,
                         (Numero_pt) outro));
 }
@@ -546,25 +546,25 @@ MeuComplexo_pt Ac_Soma_  ( MeuComplexo_t  * const  me,
 static  Numero_pt ac_soma_  (Numero_t       * const  me,
                              Numero_t const * const  outro)
 {
-	Set_((MeuComplexo_pt)  me,
-				GetReal_((MeuComplexo_pt) me) +
-				GetReal_((MeuComplexo_pt) outro),
-				GetImag_((MeuComplexo_pt) me) +
-				GetImag_((MeuComplexo_pt) outro) );
+	Set_((MeuRacional_pt)  me,
+				GetReal_((MeuRacional_pt) me) +
+				GetReal_((MeuRacional_pt) outro),
+				GetImag_((MeuRacional_pt) me) +
+				GetImag_((MeuRacional_pt) outro) );
 
 	return ((Numero_pt) me);
 }
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Ac_Subt_  ( MeuComplexo_t  * const  me,
-						 MeuComplexo_t const * const  outro)
+MeuRacional_pt Ac_Subt_  ( MeuRacional_t  * const  me,
+						 MeuRacional_t const * const  outro)
 {
-	Set_((MeuComplexo_pt)  me,
-				GetReal_((MeuComplexo_pt) me) -
-				GetReal_((MeuComplexo_pt) outro),
-				GetImag_((MeuComplexo_pt) me) -
-				GetImag_((MeuComplexo_pt) outro) );
+	Set_((MeuRacional_pt)  me,
+				GetReal_((MeuRacional_pt) me) -
+				GetReal_((MeuRacional_pt) outro),
+				GetImag_((MeuRacional_pt) me) -
+				GetImag_((MeuRacional_pt) outro) );
 
 	return ( me);
 }
@@ -573,20 +573,20 @@ MeuComplexo_pt Ac_Subt_  ( MeuComplexo_t  * const  me,
 static  Numero_pt ac_subt_  (Numero_t       * const  me,
 								  Numero_t const * const  outro)
 {
-	Set_((MeuComplexo_pt)  me,
-				GetReal_((MeuComplexo_pt) me) -
-				GetReal_((MeuComplexo_pt) outro),
-				GetImag_((MeuComplexo_pt) me) -
-				GetImag_((MeuComplexo_pt) outro) );
+	Set_((MeuRacional_pt)  me,
+				GetReal_((MeuRacional_pt) me) -
+				GetReal_((MeuRacional_pt) outro),
+				GetImag_((MeuRacional_pt) me) -
+				GetImag_((MeuRacional_pt) outro) );
 	return (Numero_pt) me;
 }
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Ac_Mult_  ( MeuComplexo_t  * const  me,
-						 MeuComplexo_t const * const  outro)
+MeuRacional_pt Ac_Mult_  ( MeuRacional_t  * const  me,
+						 MeuRacional_t const * const  outro)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          ac_mult_ ((Numero_pt) me,
                         (Numero_pt) outro));
 }
@@ -595,33 +595,33 @@ MeuComplexo_pt Ac_Mult_  ( MeuComplexo_t  * const  me,
 static  Numero_pt ac_mult_  (Numero_t       * const  me,
                              Numero_t const * const  outro)
 {
-	MeuComplexo_pt  temp = NULL;
-	temp = Complexo_constroi(temp, 0.0,0.0);
+	MeuRacional_pt  temp = NULL;
+	temp = Racional_constroi(temp, 0.0,0.0);
 
 	 SetReal_(temp,
-				(GetReal_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) -
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) )  );
+				(GetReal_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) -
+				(GetImag_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) )  );
 
 	 SetImag_ ( temp,
-				(GetReal_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) ) +
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) );
+				(GetReal_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) ) +
+				(GetImag_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) );
 
-     SetReal_ ((MeuComplexo_pt)me, GetReal_(temp));
-     SetImag_ ((MeuComplexo_pt)me, GetImag_(temp));
+     SetReal_ ((MeuRacional_pt)me, GetReal_(temp));
+     SetImag_ ((MeuRacional_pt)me, GetImag_(temp));
      Destroi_(temp);
 	 return ( (Numero_pt) me);
 }
 
 /*-----------------------------------------------------------------*/
 static inline
-MeuComplexo_pt Ac_Divd_  ( MeuComplexo_t  * const  me,
-						 MeuComplexo_t const * const  outro)
+MeuRacional_pt Ac_Divd_  ( MeuRacional_t  * const  me,
+						 MeuRacional_t const * const  outro)
 {
-	return ( (MeuComplexo_pt)
+	return ( (MeuRacional_pt)
 	          ac_divd_ ((Numero_pt) me,
 									     (Numero_pt) outro));
 }
@@ -630,36 +630,36 @@ MeuComplexo_pt Ac_Divd_  ( MeuComplexo_t  * const  me,
 static  Numero_pt ac_divd_  (Numero_t       * const  me,
 								  Numero_t const * const  outro)
 {
-	double quociente;
-	quociente = GetReal_((MeuComplexo_pt) outro) *
-	            GetReal_((MeuComplexo_pt) outro)    +
-	            GetImag_((MeuComplexo_pt) outro) *
-	            GetImag_((MeuComplexo_pt) outro) ;
+	long int quociente;
+	quociente = GetReal_((MeuRacional_pt) outro) *
+	            GetReal_((MeuRacional_pt) outro)    +
+	            GetImag_((MeuRacional_pt) outro) *
+	            GetImag_((MeuRacional_pt) outro) ;
 
-    MeuComplexo_pt  temp = NULL;
-    temp = Complexo_constroi(temp, 0.0,0.0);
+    MeuRacional_pt  temp = NULL;
+    temp = Racional_constroi(temp, 0.0,0.0);
 
 	 SetReal_( temp,
-				((GetReal_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) -
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) ) )/quociente );
+				((GetReal_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) -
+				(GetImag_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) ) )/quociente );
 
 	 SetImag_ ( temp,
-               ((GetReal_((MeuComplexo_pt) me) *
-				 GetImag_((MeuComplexo_pt) outro) ) +
-				(GetImag_((MeuComplexo_pt) me) *
-				 GetReal_((MeuComplexo_pt) outro) ) )/quociente );
+               ((GetReal_((MeuRacional_pt) me) *
+				 GetImag_((MeuRacional_pt) outro) ) +
+				(GetImag_((MeuRacional_pt) me) *
+				 GetReal_((MeuRacional_pt) outro) ) )/quociente );
 
-     SetReal_ ((MeuComplexo_pt)me, GetReal_(temp));
-     SetImag_ ((MeuComplexo_pt)me, GetImag_(temp));
+     SetReal_ ((MeuRacional_pt)me, GetReal_(temp));
+     SetImag_ ((MeuRacional_pt)me, GetImag_(temp));
      Destroi_(temp);
 	 return ( (Numero_pt) me);}
 
 /*-----------------------------------------------------------------*/
 static inline
-int Compara_  ( MeuComplexo_t const * const  me,
-				MeuComplexo_t const * const  outro)
+int Compara_  ( MeuRacional_t const * const  me,
+				MeuRacional_t const * const  outro)
 {
 	return ( compara_ ((Numero_pt) me,
                        (Numero_pt) outro));
@@ -668,17 +668,17 @@ int Compara_  ( MeuComplexo_t const * const  me,
 static  int	compara_ 	(Numero_t const * const  me,
                          Numero_t const * const  outro)
 {
-   double diff_real, diff_imag;
-   diff_real = abs(GetReal_((MeuComplexo_pt)me) - GetReal_((MeuComplexo_pt)outro));
-   diff_imag = abs(GetImag_((MeuComplexo_pt)me) - GetImag_((MeuComplexo_pt)outro));
+   long int diff_real, diff_imag;
+   diff_real = abs(GetReal_((MeuRacional_pt)me) - GetReal_((MeuRacional_pt)outro));
+   diff_imag = abs(GetImag_((MeuRacional_pt)me) - GetImag_((MeuRacional_pt)outro));
 
     if (   (    diff_real < (DBL_TRUE_MIN * 256.0))
         && (    diff_imag < (DBL_TRUE_MIN * 256.0)))
     {return (0);}
 
-	if( Modulo_((MeuComplexo_pt)me) > Modulo_((MeuComplexo_pt)outro) )
+	if( Modulo_((MeuRacional_pt)me) > Modulo_((MeuRacional_pt)outro) )
 	{ return (1);}
-	else if( Modulo_((MeuComplexo_pt)me) < Modulo_((MeuComplexo_pt)outro) )
+	else if( Modulo_((MeuRacional_pt)me) < Modulo_((MeuRacional_pt)outro) )
 	{  return (-1);};
 
 	return(0);
@@ -686,18 +686,18 @@ static  int	compara_ 	(Numero_t const * const  me,
 
 /*-----------------------------------------------------------------*/
 static inline
-char * Imprime_  ( MeuComplexo_t const * const  me)
+char * Imprime_  ( MeuRacional_t const * const  me)
 {
 	return ( imprime_ ((Numero_pt) me));
 }
 static  char * imprime_  (Numero_t const * const  me)
 {
     static char buffer[50];
-    if (GetImag_((MeuComplexo_pt) me) > 0.0)
-	{   sprintf(buffer, "%f + %f i",GetReal_((MeuComplexo_pt) me),fabs(GetImag_((MeuComplexo_pt) me)) );
+    if (GetImag_((MeuRacional_pt) me) > 0.0)
+	{   sprintf(buffer, "%f + %f i",GetReal_((MeuRacional_pt) me),fabs(GetImag_((MeuRacional_pt) me)) );
 	}
 	else
-	{   sprintf(buffer, "%f - %f i",GetReal_((MeuComplexo_pt) me),fabs(GetImag_((MeuComplexo_pt) me)) );
+	{   sprintf(buffer, "%f - %f i",GetReal_((MeuRacional_pt) me),fabs(GetImag_((MeuRacional_pt) me)) );
 	}
 	return buffer;
 }
@@ -708,14 +708,14 @@ static  char * imprime_  (Numero_t const * const  me)
  * ---------------------------------------------*/
  /*-----------------------------------------------------------------*/
 static inline
-void Destroi_  ( MeuComplexo_t  *   me)
+void Destroi_  ( MeuRacional_t  *   me)
 {
 	  destroi_ ((Numero_t *)  me);
 }
 static void destroi_ (Numero_t *  me)
 {
-	/* primeiro destroi o valor double */
-	free (((MeuComplexo_pt) me)->valor);
+	/* primeiro destroi o valor long int */
+	free (((MeuRacional_pt) me)->valor);
 	/*... e só agora destroi-se o número virtual da classe base */
 	free ((Numero_t *) me);
 }
