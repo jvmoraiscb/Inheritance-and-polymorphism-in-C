@@ -1,12 +1,12 @@
 /**********************************************************************
-* Baseado no código disponibilizado em
-*  Application Note: "Object-Oriented Programming in C"
-* https://www.state-machine.com/doc/AN_OOP_in_C.pdf
-*
-* Aqui se apresenta a interface do número do tipo "racional"
-*
-* numero.h definiu a interface do "número_t virtual"
-* ********************************************************************/
+ * Baseado no código disponibilizado em
+ *  Application Note: "Object-Oriented Programming in C"
+ * https://www.state-machine.com/doc/AN_OOP_in_C.pdf
+ *
+ * Aqui se apresenta a interface do número do tipo "racional"
+ *
+ * numero.h definiu a interface do "número_t virtual"
+ * ********************************************************************/
 
 #ifndef MEURACIONAL_H
 #define MEURACIONAL_H
@@ -31,114 +31,103 @@ struct MeuRacional_Interface_st;
  * b) os atributos (valores) numéricos do MeuRacional_t        *
  *     (FINALMENTE  !!!!   :)                                  *
  * ------------------------------------------------------------*/
- struct MeuRacional_st {
+struct MeuRacional_st
+{
     struct Numero_st super;
-                     /* <== herda a "super-classe Numeros",
-                      * isto é, a classe superior a Meulong int na
-                      * hierarquia dos números
-                      * Com isso, herda as operações da
-                      * tabela de métodos comuns a todos os Numeros
-                      * assim como os atributos desta classe base,
-                      * (caso houvessem)       */
+    /* <== herda a "super-classe Numeros",
+     * isto é, a classe superior a Meulong int na
+     * hierarquia dos números
+     * Com isso, herda as operações da
+     * tabela de métodos comuns a todos os Numeros
+     * assim como os atributos desta classe base,
+     * (caso houvessem)       */
 
-    struct MeuRacional_Interface_st const *  Metodo;
-                      /* o ponteiro para a tabela de
-                       * ponteiros para funções
-                       * que são apenas as chamadas para os métodos
-                       * da super-classe, porém fazendo as
-                       * devidas conversões na "entrada" e na
-                       * saída               */
+    struct MeuRacional_Interface_st const *Metodo;
+    /* o ponteiro para a tabela de
+     * ponteiros para funções
+     * que são apenas as chamadas para os métodos
+     * da super-classe, porém fazendo as
+     * devidas conversões na "entrada" e na
+     * saída               */
 
     /* o atributo  desta classe é o ponteiro para dois long ints  */
-    long int * valor;
-}  ;
+    long int *valor;
+};
 /* ----------------------------------------------------------*
  * declaro o ponteiro para o número do tipo MeuRacional_t      *
  * que não estão "dentro" da tabela de funções virtuais      *
  * ----------------------------------------------------------*/
 typedef struct MeuRacional_st *MeuRacional_pt;
-typedef struct MeuRacional_st  MeuRacional_t;
+typedef struct MeuRacional_st MeuRacional_t;
 
+struct MeuRacional_Interface_st
+{
+    MeuRacional_pt (*copia)(MeuRacional_t const *const me);
 
+    MeuRacional_pt (*atribui)(MeuRacional_t const *const me,
+                              MeuRacional_t *const outro);
 
-struct MeuRacional_Interface_st {
-	MeuRacional_pt (*copia)	(MeuRacional_t const * const me);
+    MeuRacional_pt (*soma)(MeuRacional_t const *const me,
+                           MeuRacional_t const *const outro,
+                           MeuRacional_t *const res);
 
-    MeuRacional_pt (*atribui)	(MeuRacional_t const * const  me,
-							 MeuRacional_t       * const  outro);
+    MeuRacional_pt (*subt)(MeuRacional_t const *const me,
+                           MeuRacional_t const *const outro,
+                           MeuRacional_t *const res);
 
-    MeuRacional_pt (*soma)	(MeuRacional_t const * const  me,
-							 MeuRacional_t const * const  outro,
-							 MeuRacional_t       * const res);
+    MeuRacional_pt (*mult)(MeuRacional_t const *const me,
+                           MeuRacional_t const *const outro,
+                           MeuRacional_t *const res);
 
-    MeuRacional_pt (*subt)	(MeuRacional_t const * const  me,
-							 MeuRacional_t const * const  outro,
-							 MeuRacional_t       * const res);
+    MeuRacional_pt (*divd)(MeuRacional_t const *const me,
+                           MeuRacional_t const *const outro,
+                           MeuRacional_t *const res);
 
-    MeuRacional_pt (*mult)	(MeuRacional_t const * const  me,
-							 MeuRacional_t const * const  outro,
-							MeuRacional_t        * const res);
+    MeuRacional_pt (*ac_soma)(MeuRacional_t *const me,
+                              MeuRacional_t const *const outro);
 
-    MeuRacional_pt (*divd)	(MeuRacional_t const * const  me,
-							 MeuRacional_t const * const  outro,
-							 MeuRacional_t       * const res);
+    MeuRacional_pt (*ac_subt)(MeuRacional_t *const me,
+                              MeuRacional_t const *const outro);
 
-    MeuRacional_pt (*ac_soma)	(MeuRacional_t       * const  me,
-							     MeuRacional_t const * const  outro);
+    MeuRacional_pt (*ac_mult)(MeuRacional_t *const me,
+                              MeuRacional_t const *const outro);
 
-    MeuRacional_pt (*ac_subt)	(MeuRacional_t       * const  me,
-							     MeuRacional_t const * const outro);
+    MeuRacional_pt (*ac_divd)(MeuRacional_t *const me,
+                              MeuRacional_t const *const outro);
 
-    MeuRacional_pt (*ac_mult)	(MeuRacional_t       * const  me,
-							     MeuRacional_t const * const outro);
+    int (*compara)(MeuRacional_t const *const me,
+                   MeuRacional_t const *const outro);
 
-    MeuRacional_pt (*ac_divd)	(MeuRacional_t        * const  me,
-							     MeuRacional_t const * const outro);
+    char *(*imprime)(MeuRacional_t const *const me);
 
-    int			(*compara)	(MeuRacional_t const * const  me,
-							 MeuRacional_t const * const  outro);
-
-    char *      (*imprime)  (MeuRacional_t const * const  me);
-
-    void        (*destroi)  (MeuRacional_t       *        me);
+    void (*destroi)(MeuRacional_t *me);
     /*------------------------------------------------------*/
-    void       (*get     ) (MeuRacional_t  const * const me,
-							long int               * ptNum,
-	                        long int 				 * ptDen);
+    void (*get)(MeuRacional_t const *const me,
+                long int *ptNum,
+                long int *ptDen);
 
-	void   	   (*set     ) (MeuRacional_t        * const me,
-	                          long int             valorNum,
-	                          long int 		     valorDen);
+    void (*set)(MeuRacional_t *const me,
+                long int valorNum,
+                long int valorDen);
 
-	long int       (*getReal ) (MeuRacional_t  const * const me);
+    long int (*getNum)(MeuRacional_t const *const me);
 
-	void   	   (*setReal ) (MeuRacional_t        * const me,
-	                          long int             valorNum);
+    void (*setNum)(MeuRacional_t *const me,
+                   long int valorNum);
 
+    long int (*getDen)(MeuRacional_t const *const me);
 
-	long int       (*getImag ) (MeuRacional_t  const * const me);
+    void (*setDen)(MeuRacional_t *const me, long int valorNum);
 
-	void   	   (*setImag ) (MeuRacional_t        * const me,
-	                          long int             valorNum);
-
-	MeuRacional_pt  (*conjugado) (MeuRacional_t   const * const me,
-	                              MeuRacional_t         * const conj);
-
-
-    long int  (*modulo) (MeuRacional_t   const * const me);
-
-    long int (*argumento) (MeuRacional_t   const * const me);
+    long int (*modulo)(MeuRacional_t const *const me);
     /*------------------------------------------------------*/
 };
 
 typedef struct MeuRacional_Interface_st *MeuRacional_Interface_pt;
 
-
 /* protótipo do construtor   */
-MeuRacional_pt Racional_constroi (MeuRacional_pt  me,
-								  long int valorNum,
-								  long int valorDen);
-
-
+MeuRacional_pt Racional_constroi(MeuRacional_pt me,
+                                 long int valorNum,
+                                 long int valorDen);
 
 #endif /* MeuRacional_H */
