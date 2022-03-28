@@ -174,7 +174,7 @@ static long int GetDen_(MeuRacional_t const *const me);
 static void SetDen_(MeuRacional_t *const me,
 					long int valorDen);
 
-static long int Modulo_(MeuRacional_t const *const me);
+static void reduz_racional_euclides(MeuRacional_pt me);
 
 /*---------------------------------------------*
  * implementação do construtor                  *
@@ -183,6 +183,12 @@ MeuRacional_pt Racional_constroi(MeuRacional_pt me,
 								 long int valorNum,
 								 long int valorDen)
 {
+	// garante que o denominador nao sera zero
+	if(valorDen == 0){
+		printf("O denominador nao pode ser zero, o ponteiro do racional recebeu o valor NULL\n");
+		return NULL;	
+	}
+
 	/* tabela de funções virtuais da classe Numero_t *
 	 * Esta tabela estática será compartilhada por todos os números *
 	 * da classe MeuRacional_t                                        */
@@ -233,8 +239,7 @@ MeuRacional_pt Racional_constroi(MeuRacional_pt me,
 		&GetNum_,
 		&SetNum_,
 		&GetDen_,
-		&SetDen_,
-		&Modulo_};
+		&SetDen_};
 
 	me->Metodo = &interface;
 	/* metodo aponta para vtbl de MeuRacional_t */
@@ -254,24 +259,64 @@ MeuRacional_pt Racional_constroi(MeuRacional_pt me,
 
 	/* copia o long int passado como parâmetro */
 	/* no endereco de memoria recém alocado  */
+	if(valorDen < 0){
+		valorNum = valorNum * -1;
+		valorDen = valorDen * -1;
+	}
 	me->valor[0] = valorNum;
 	me->valor[1] = valorDen;
 
+	//reduz_racional_euclides((MeuRacional_pt)me);
 	return (me);
 
 	/* ------------------------------------------------------------
 	 * quando implementarmos o "meu_float", valor apontará para float
-	 * quando implementarmos o racional,   valor apontará para
+	 * quando implementarmos o meu_racional,   valor apontará para
 	 * um vetor com dois "long int"
-	 * quando implementarmos o Racional,   valor apontará para
-	 * um vetor com dois "long int"
+	 * quando implementarmos o meu_complexo,   valor apontará para
+	 * um vetor com dois "double"
 	 * quando implementarmos o quaternion, valor apontará para
-	 * um vetor com quatro "long int"
+	 * um vetor com quatro "double"
 	 * Por isso, cada tipo específico de número terminará de implementar
 	 * o seu construtor....
 	 *---------------------------------------------------------------*/
 }
+/* ---------------algoritmo de euclides ------------*
+ * note que esta função NÃO está no meu_racional.h  *
+ * -------------------------------------------------*/
+static void reduz_racional_euclides(MeuRacional_pt me)
+{
+	int sinal;
+	if ((me->valor[0] * me->valor[1]) < 0)
+	{
+		sinal = -1;
+	}
+	else
+	{
+		sinal = +1;
+	}
 
+	long int a, b, rem;
+
+	if (me->valor[0] > me->valor[1])
+	{
+		a = labs(me->valor[0]);
+		b = labs(me->valor[1]);
+	}
+	else
+	{
+		a = labs(me->valor[1]);
+		b = labs(me->valor[0]);
+	}
+	while (b > 0)
+	{
+		rem = b;
+		b = a % b;
+		a = rem;
+	}
+	me->valor[0] = labs(me->valor[0]) / a * sinal;
+	me->valor[1] = labs(me->valor[1]) / a;
+}
 /*---------------------------------------------*
  * implementação do set e get                   *
  * ---------------------------------------------*/
@@ -288,6 +333,11 @@ static inline void Set_(MeuRacional_t *const me,
 						long int valorNum,
 						long int valorDen)
 {
+	if(valorDen < 0){
+		valorNum = valorNum * -1;
+		valorDen = valorDen * -1;
+	}
+	
 	me->valor[0] = valorNum;
 	me->valor[1] = valorDen;
 }
@@ -311,12 +361,12 @@ static inline long int GetDen_(MeuRacional_t const *const me)
 static inline void SetDen_(MeuRacional_t *const me,
 						   long int valorDen)
 {
-	me->valor[1] = valorDen;
-}
+	if(valorDen < 0){
+		me->valor[0] = me->valor[0] * -1;
+		valorDen = valorDen * -1;
+	}
 
-static long int Modulo_(MeuRacional_t const *const me)
-{
-	return (sqrt(GetNum_(me) * (GetNum_(me)) + (GetDen_(me) * (GetDen_(me)))));
+	me->valor[1] = valorDen;
 }
 /*------------------------------------------------------*
  * IMPLEMENTAÇÃO DAS FUNÇÕES VIRTUAIS           *
@@ -333,7 +383,7 @@ static Numero_pt copia_(Numero_t const *const me)
 	Numero_pt outro = NULL;
 	outro = (Numero_pt)Racional_constroi((MeuRacional_pt)outro,
 										 GetNum_((MeuRacional_pt)me),
-										 GetDen_((MeuRacional_pt)me));
+										 GetDen_((MeuRacional_pt)me));									 
 	return outro;
 }
 
@@ -341,9 +391,8 @@ static Numero_pt copia_(Numero_t const *const me)
 static inline MeuRacional_pt Atribui_(MeuRacional_t const *const me,
 									  MeuRacional_t *const outro)
 {
-	return ((MeuRacional_pt)
-				atribui_((Numero_pt)me,
-						 (Numero_pt)outro));
+	return ((MeuRacional_pt) atribui_	((Numero_pt)me,
+						 				(Numero_pt)outro));
 }
 
 static Numero_pt atribui_(Numero_t const *const me,
@@ -370,11 +419,14 @@ static Numero_pt soma_(Numero_t const *const me,
 					   Numero_t const *const outro,
 					   Numero_t *const res)
 {
-	Set_((MeuRacional_pt)res,
-		 GetNum_((MeuRacional_pt)me) +
-			 GetNum_((MeuRacional_pt)outro),
-		 GetDen_((MeuRacional_pt)me) +
-			 GetDen_((MeuRacional_pt)outro));
+	
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro) + GetNum_((MeuRacional_pt)outro) * GetDen_((MeuRacional_pt)me);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
+
+	Set_((MeuRacional_pt)res, temp_num, temp_den);
+
+	reduz_racional_euclides((MeuRacional_pt)res);
 
 	return (Numero_pt)res;
 }
@@ -393,11 +445,14 @@ static Numero_pt subt_(Numero_t const *const me,
 					   Numero_t const *const outro,
 					   Numero_t *const res)
 {
-	Set_((MeuRacional_pt)res,
-		 GetNum_((MeuRacional_pt)me) -
-			 GetNum_((MeuRacional_pt)outro),
-		 GetDen_((MeuRacional_pt)me) -
-			 GetDen_((MeuRacional_pt)outro));
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro) - GetNum_((MeuRacional_pt)outro) * GetDen_((MeuRacional_pt)me);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
+
+	Set_((MeuRacional_pt)res, temp_num, temp_den);
+
+	reduz_racional_euclides((MeuRacional_pt)res);
+
 	return (Numero_pt)res;
 }
 
@@ -416,24 +471,13 @@ static Numero_pt mult_(Numero_t const *const me,
 					   Numero_t const *const outro,
 					   Numero_t *const res)
 {
-	MeuRacional_pt temp = NULL;
-	temp = Racional_constroi(temp, 0.0, 0.0);
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetNum_((MeuRacional_pt)outro);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
+	
+	Set_((MeuRacional_pt)res, temp_num, temp_den);
 
-	SetNum_(temp,
-			(GetNum_((MeuRacional_pt)me) *
-			 GetNum_((MeuRacional_pt)outro)) -
-				(GetDen_((MeuRacional_pt)me) *
-				 GetDen_((MeuRacional_pt)outro)));
-
-	SetDen_(temp,
-			(GetNum_((MeuRacional_pt)me) *
-			 GetDen_((MeuRacional_pt)outro)) +
-				(GetDen_((MeuRacional_pt)me) *
-				 GetNum_((MeuRacional_pt)outro)));
-
-	SetNum_((MeuRacional_pt)res, GetNum_(temp));
-	SetDen_((MeuRacional_pt)res, GetDen_(temp));
-	Destroi_(temp);
+	reduz_racional_euclides((MeuRacional_pt)res);
 
 	return ((Numero_pt)res);
 }
@@ -453,32 +497,14 @@ static Numero_pt divd_(Numero_t const *const me,
 					   Numero_t const *const outro,
 					   Numero_t *const res)
 {
-	long int quociente;
-	quociente = GetNum_((MeuRacional_pt)outro) *
-					GetNum_((MeuRacional_pt)outro) +
-				GetDen_((MeuRacional_pt)outro) *
-					GetDen_((MeuRacional_pt)outro);
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetNum_((MeuRacional_pt)outro);
+	
+	Set_((MeuRacional_pt)res, temp_num, temp_den);
 
-	MeuRacional_pt temp = NULL;
-	temp = Racional_constroi(temp, 0.0, 0.0);
+	reduz_racional_euclides((MeuRacional_pt)res);
 
-	SetNum_(temp,
-			((GetNum_((MeuRacional_pt)me) *
-			  GetNum_((MeuRacional_pt)outro)) -
-			 (GetDen_((MeuRacional_pt)me) *
-			  GetDen_((MeuRacional_pt)outro))) /
-				quociente);
-
-	SetDen_(temp,
-			((GetNum_((MeuRacional_pt)me) *
-			  GetDen_((MeuRacional_pt)outro)) +
-			 (GetDen_((MeuRacional_pt)me) *
-			  GetNum_((MeuRacional_pt)outro))) /
-				quociente);
-
-	SetNum_((MeuRacional_pt)res, GetNum_(temp));
-	SetDen_((MeuRacional_pt)res, GetDen_(temp));
-	Destroi_(temp);
 	return ((Numero_pt)res);
 }
 
@@ -494,36 +520,37 @@ static inline MeuRacional_pt Ac_Soma_(MeuRacional_t *const me,
 static Numero_pt ac_soma_(Numero_t *const me,
 						  Numero_t const *const outro)
 {
-	Set_((MeuRacional_pt)me,
-		 GetNum_((MeuRacional_pt)me) +
-			 GetNum_((MeuRacional_pt)outro),
-		 GetDen_((MeuRacional_pt)me) +
-			 GetDen_((MeuRacional_pt)outro));
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro) + GetNum_((MeuRacional_pt)outro) * GetDen_((MeuRacional_pt)me);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
 
-	return ((Numero_pt)me);
+	Set_((MeuRacional_pt)me, temp_num, temp_den);
+
+	reduz_racional_euclides((MeuRacional_pt)me);
+
+	return (Numero_pt)me;
 }
 
 /*-----------------------------------------------------------------*/
 static inline MeuRacional_pt Ac_Subt_(MeuRacional_t *const me,
 									  MeuRacional_t const *const outro)
 {
-	Set_((MeuRacional_pt)me,
-		 GetNum_((MeuRacional_pt)me) -
-			 GetNum_((MeuRacional_pt)outro),
-		 GetDen_((MeuRacional_pt)me) -
-			 GetDen_((MeuRacional_pt)outro));
-
-	return (me);
+	return ((MeuRacional_pt)
+				ac_subt_((Numero_pt)me,
+						 (Numero_pt)outro));
 }
 
 static Numero_pt ac_subt_(Numero_t *const me,
 						  Numero_t const *const outro)
 {
-	Set_((MeuRacional_pt)me,
-		 GetNum_((MeuRacional_pt)me) -
-			 GetNum_((MeuRacional_pt)outro),
-		 GetDen_((MeuRacional_pt)me) -
-			 GetDen_((MeuRacional_pt)outro));
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro) - GetNum_((MeuRacional_pt)outro) * GetDen_((MeuRacional_pt)me);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
+
+	Set_((MeuRacional_pt)me, temp_num, temp_den);
+
+	reduz_racional_euclides((MeuRacional_pt)me);
+
 	return (Numero_pt)me;
 }
 
@@ -539,24 +566,14 @@ static inline MeuRacional_pt Ac_Mult_(MeuRacional_t *const me,
 static Numero_pt ac_mult_(Numero_t *const me,
 						  Numero_t const *const outro)
 {
-	MeuRacional_pt temp = NULL;
-	temp = Racional_constroi(temp, 0.0, 0.0);
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetNum_((MeuRacional_pt)outro);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
+	
+	Set_((MeuRacional_pt)me, temp_num, temp_den);
 
-	SetNum_(temp,
-			(GetNum_((MeuRacional_pt)me) *
-			 GetNum_((MeuRacional_pt)outro)) -
-				(GetDen_((MeuRacional_pt)me) *
-				 GetDen_((MeuRacional_pt)outro)));
+	reduz_racional_euclides((MeuRacional_pt)me);
 
-	SetDen_(temp,
-			(GetNum_((MeuRacional_pt)me) *
-			 GetDen_((MeuRacional_pt)outro)) +
-				(GetDen_((MeuRacional_pt)me) *
-				 GetNum_((MeuRacional_pt)outro)));
-
-	SetNum_((MeuRacional_pt)me, GetNum_(temp));
-	SetDen_((MeuRacional_pt)me, GetDen_(temp));
-	Destroi_(temp);
 	return ((Numero_pt)me);
 }
 
@@ -572,32 +589,14 @@ static inline MeuRacional_pt Ac_Divd_(MeuRacional_t *const me,
 static Numero_pt ac_divd_(Numero_t *const me,
 						  Numero_t const *const outro)
 {
-	long int quociente;
-	quociente = GetNum_((MeuRacional_pt)outro) *
-					GetNum_((MeuRacional_pt)outro) +
-				GetDen_((MeuRacional_pt)outro) *
-					GetDen_((MeuRacional_pt)outro);
+	long int temp_num, temp_den;
+	temp_num = GetNum_((MeuRacional_pt)me) * GetDen_((MeuRacional_pt)outro);
+	temp_den = GetDen_((MeuRacional_pt)me) * GetNum_((MeuRacional_pt)outro);
+	
+	Set_((MeuRacional_pt)me, temp_num, temp_den);
 
-	MeuRacional_pt temp = NULL;
-	temp = Racional_constroi(temp, 0.0, 0.0);
+	reduz_racional_euclides((MeuRacional_pt)me);
 
-	SetNum_(temp,
-			((GetNum_((MeuRacional_pt)me) *
-			  GetNum_((MeuRacional_pt)outro)) -
-			 (GetDen_((MeuRacional_pt)me) *
-			  GetDen_((MeuRacional_pt)outro))) /
-				quociente);
-
-	SetDen_(temp,
-			((GetNum_((MeuRacional_pt)me) *
-			  GetDen_((MeuRacional_pt)outro)) +
-			 (GetDen_((MeuRacional_pt)me) *
-			  GetNum_((MeuRacional_pt)outro))) /
-				quociente);
-
-	SetNum_((MeuRacional_pt)me, GetNum_(temp));
-	SetDen_((MeuRacional_pt)me, GetDen_(temp));
-	Destroi_(temp);
 	return ((Numero_pt)me);
 }
 
@@ -612,23 +611,32 @@ static inline int Compara_(MeuRacional_t const *const me,
 static int compara_(Numero_t const *const me,
 					Numero_t const *const outro)
 {
-	long int diff_real, diff_imag;
-	diff_real = abs(GetNum_((MeuRacional_pt)me) - GetNum_((MeuRacional_pt)outro));
-	diff_imag = abs(GetDen_((MeuRacional_pt)me) - GetDen_((MeuRacional_pt)outro));
+	double valor_me, valor_outro;
+	MeuRacional_pt me_temp = NULL, outro_temp = NULL;
 
-	if ((diff_real < (DBL_TRUE_MIN * 256.0)) && (diff_imag < (DBL_TRUE_MIN * 256.0)))
+	me_temp = Racional_constroi(me_temp, GetNum_((MeuRacional_pt)me), GetDen_((MeuRacional_pt)me));
+	outro_temp = Racional_constroi(outro_temp, GetNum_((MeuRacional_pt)outro), GetDen_((MeuRacional_pt)outro));
+	reduz_racional_euclides((MeuRacional_pt)me_temp);
+	reduz_racional_euclides((MeuRacional_pt)outro_temp);
+	valor_me = (double)GetNum_((MeuRacional_pt)me_temp) / (double)GetDen_((MeuRacional_pt)me_temp);
+	valor_outro = (double)GetNum_((MeuRacional_pt)outro_temp) / (double)GetDen_((MeuRacional_pt)outro_temp);
+
+	if (GetNum_((MeuRacional_pt)me_temp) == GetNum_((MeuRacional_pt)outro_temp) && GetDen_((MeuRacional_pt)me_temp) == GetDen_((MeuRacional_pt)outro_temp))
 	{
 		return (0);
 	}
 
-	if (Modulo_((MeuRacional_pt)me) > Modulo_((MeuRacional_pt)outro))
+	if (valor_me > valor_outro)
 	{
 		return (1);
 	}
-	else if (Modulo_((MeuRacional_pt)me) < Modulo_((MeuRacional_pt)outro))
+	else if (valor_me < valor_outro)
 	{
 		return (-1);
 	};
+
+	me_temp->Metodo->destroi(me_temp);
+	outro_temp->Metodo->destroi(outro_temp);
 
 	return (0);
 }
@@ -640,15 +648,11 @@ static inline char *Imprime_(MeuRacional_t const *const me)
 }
 static char *imprime_(Numero_t const *const me)
 {
+	/*if(GetDen_((MeuRacional_pt)me) < 0){
+		Set_((MeuRacional_pt)me, GetNum_((MeuRacional_pt)me) * -1, GetDen_((MeuRacional_pt)me) * -1);
+	}*/
 	static char buffer[50];
-	if (GetDen_((MeuRacional_pt)me) > 0.0)
-	{
-		sprintf(buffer, "%f + %f i", GetNum_((MeuRacional_pt)me), fabs(GetDen_((MeuRacional_pt)me)));
-	}
-	else
-	{
-		sprintf(buffer, "%f - %f i", GetNum_((MeuRacional_pt)me), fabs(GetDen_((MeuRacional_pt)me)));
-	}
+	sprintf(buffer, "%ld/%ld", GetNum_((MeuRacional_pt)me), GetDen_((MeuRacional_pt)me));
 	return buffer;
 }
 

@@ -118,8 +118,6 @@ struct MeuRacional_Interface_st
     long int (*getDen)(MeuRacional_t const *const me);
 
     void (*setDen)(MeuRacional_t *const me, long int valorNum);
-
-    long int (*modulo)(MeuRacional_t const *const me);
     /*------------------------------------------------------*/
 };
 

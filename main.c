@@ -7,7 +7,7 @@ int main ()
 {
 
 /** ------ PARTE ORIGINAL DO PROGRAMA: MEU_Racional ------*/
-	MeuRacional_pt ptC1=NULL, ptC2=NULL, ptC3=NULL;
+	MeuRacional_pt num1=NULL, num2=NULL, num3=NULL, num4=NULL;
 
 	/*veja que aqui neste ponto faço chamadas de algumas funções
 	 * através dos ponteiros que estão na tabela vtbl (ponteiro "metodo")
@@ -16,69 +16,91 @@ int main ()
 	 * Numero_pt e depois converter o resultado "de volta" para
 	 * MeuDouble_pt */
 
+   num1 = Racional_constroi(num1, 45, 23);
+   num2 = Racional_constroi(num2, 57, 55);
+   num3 = Racional_constroi(num3, 17, 45);
+   printf("Os numeros 1,2 e 3 foram criados com os valores: num1 = %s,", num1->Metodo->imprime(num1));
+   printf(" num2 = %s,", num2->Metodo->imprime(num2));
+   printf(" num3 = %s\n", num3->Metodo->imprime(num3));
+   //num4 = Racional_constroi(num4, 10, 25);
+   num4 = num1->Metodo->copia(num1);
+   printf("O numero 4 foi criado como uma copia do numero 1: num4 = %s\n", num4->Metodo->imprime(num4));
 
-	ptC1 = Racional_constroi (ptC1, 10.0, 20.0);
+   num4->Metodo->setNum(num4, 10);
+   num4->Metodo->setDen(num4, -20);
+   num4->Metodo->set(num4, 10, -20);
+   printf("O numerador do numero 4 foi setado para 10 e o denominador para -20: num4 = %s\n", num4->Metodo->imprime(num4));
 
-	ptC2 = ptC1->Metodo->copia (ptC1);
+   printf("O valor do numerador é %ld e do denominador é %ld.\n", num4->Metodo->getNum(num4), num4->Metodo->getDen(num4));
+   
+   num4 = num2->Metodo->atribui (num2, num4);
+   printf("O valor do numero 2 foi atribuido ao numero 4: num4 = %s\n", num4->Metodo->imprime(num4));
+   long int num , den;
+   num4->Metodo->get(num4, &num, &den);
+   printf("O valor do numerador é %ld e do denominador é %ld.\n", num, den);
 
-	printf ("Os dois numeros sao %s %s \n",
-				ptC1->Metodo->imprime (ptC1),
-				ptC2->Metodo->imprime (ptC2));
+	num3 = num3->Metodo->soma(num1, num2, num3);
+   printf("O numero 3 recebeu o valor da soma do numero 1 com o numero 2: num3 = %s\n", num3->Metodo->imprime(num3));
 
-    ptC3 = Racional_constroi (ptC3, 0.0, 0.0);
-    ptC3 = ptC2->Metodo->atribui (ptC2, ptC3);
-    printf ("ptC3 recebeu o valor de Y2 = %s \n",
-				ptC3->Metodo->imprime (ptC3));
+   num3 = num3->Metodo->subt(num1, num2, num3);
+   printf("O numero 3 recebeu o valor da subtracao do numero 1 com o numero 2: num3 = %s\n", num3->Metodo->imprime(num3));
 
+   num3 = num3->Metodo->mult(num1, num2, num3);
+   printf("O numero 3 recebeu o valor da multiplicacao do numero 1 com o numero 2: num3 = %s\n", num3->Metodo->imprime(num3));
 
-    ptC3 = ptC1->Metodo->soma(ptC1, ptC2, ptC3);
-    printf ("ptC3 recebeu a soma de Y1 com Y2 = %s \n",
-				ptC3->Metodo->imprime (ptC3));
+   num3 = num3->Metodo->divd(num1, num2, num3);
+   printf("O numero 3 recebeu o valor da divisao do numero 1 com o numero 2: num3 = %s\n", num3->Metodo->imprime(num3));
 
-    ptC3 = ptC3->Metodo->subt(ptC3, ptC2, ptC3);
-    printf ("ptC3 recebeu a subtracao de Y3 com Y2 = %s \n",
-				ptC3->Metodo->imprime (ptC3));
+   num1 = num1->Metodo->ac_soma(num1, num2);
+   printf("O numero 1 foi somado com o numero 2: num1 = %s\n", num1->Metodo->imprime(num1));
 
-    ptC3 = ptC1->Metodo->mult(ptC1, ptC2, ptC3);
-    printf ("ptC3 recebeu a multiplicacao de Y1 com Y2 = %s \n",
-                 ptC3->Metodo->imprime (ptC3));
+   num1 = num1->Metodo->ac_subt(num1, num2);
+   printf("O numero 2 foi subtraido do numero 1: num1 = %s\n", num1->Metodo->imprime(num1));
 
-    ptC3 = ptC1->Metodo->divd(ptC1, ptC2, ptC3);
-    printf ("ptC3 recebeu a divisão de Y1 com Y2 = %s \n",
-                 ptC3->Metodo->imprime (ptC3));
+   num1 = num1->Metodo->ac_mult(num1, num2);
+   printf("O numero 1 foi multiplicado pelo numero 2: num1 = %s\n", num1->Metodo->imprime(num1));
 
-    ptC3 = ptC1->Metodo->ac_soma(ptC3, ptC2);
-    printf ("ptC3 foi somado com Y2 = %s \n",
-				ptC3->Metodo->imprime (ptC3));
+   num1 = num1->Metodo->ac_divd(num1, num2);
+   printf("O numero 1 foi divido pelo numero 2: num1 = %s\n", num1->Metodo->imprime(num1));
 
-    ptC3 = ptC3->Metodo->ac_subt(ptC3, ptC2);
-    printf ("ptC3 foi subtraido de Y2 = %s \n",
-				ptC3->Metodo->imprime (ptC3));
+   int resultado = num1->Metodo->compara(num2, num4);
+   if (resultado == 0){
+      printf("num2 = num4 ");
+      printf("(%s = ", num1->Metodo->imprime(num2));
+      printf("%s)\n", num2->Metodo->imprime(num4));
+   }
+   else if (resultado > 0){
+      printf("num2 > num4 ");
+      printf("(%s > ", num1->Metodo->imprime(num2));
+      printf("%s)\n", num2->Metodo->imprime(num4));
+   }
+   else if (resultado < 0){
+      printf("num2 < num4 ");
+      printf("(%s < ", num1->Metodo->imprime(num2));
+      printf("%s)\n", num2->Metodo->imprime(num4));
+   }
 
-    ptC3 = ptC1->Metodo->ac_mult(ptC3, ptC2);
-    printf ("ptC3 foi multiplicado por Y2 = %s \n",
-                 ptC3->Metodo->imprime (ptC3));
-
-    ptC3 = ptC1->Metodo->ac_divd(ptC3, ptC2);
-    printf ("ptC3 foi dividido por Y2 = %s \n",
-                 ptC3->Metodo->imprime (ptC3));
-
-    if (ptC1->Metodo->compara(ptC1,ptC2)==0)
-    {
-       printf ("Y1 eh igual a Y2 = %s\n", ptC1->Metodo->imprime(ptC1));
-    }
-    if (ptC1->Metodo->compara(ptC2,ptC3)>0)
-    {
-       printf ("Y2 eh maior que Y3 \n");
-    }
-    if (ptC1->Metodo->compara(ptC2,ptC3)<0)
-    {
-       printf ("Y2 eh menor que Y3 \n");
-    }
-
-	ptC1->Metodo->destroi (ptC1);
-	ptC2->Metodo->destroi (ptC2);
-   ptC3->Metodo->destroi (ptC3);
+   resultado = num1->Metodo->compara(num1, num2);
+   if (resultado == 0){
+      printf("num1 = num2 ");
+      printf("(%s = ", num1->Metodo->imprime(num1));
+      printf("%s)\n", num2->Metodo->imprime(num2));
+   }
+   else if (resultado > 0){
+      printf("num1 > num2 ");
+      printf("(%s > ", num1->Metodo->imprime(num1));
+      printf("%s)\n", num2->Metodo->imprime(num2));
+   }
+   else if (resultado < 0){
+      printf("num1 < num2 ");
+      printf("(%s < ", num1->Metodo->imprime(num1));
+      printf("%s)\n", num2->Metodo->imprime(num2));
+   }
+   
+	num1->Metodo->destroi(num1);
+   num2->Metodo->destroi(num2);
+   num3->Metodo->destroi(num3);
+   num4->Metodo->destroi(num4);
 	return (0);
 }
 
