@@ -648,11 +648,12 @@ static inline char *Imprime_(Racional_t const *const me)
 }
 static char *imprime_(Numero_t const *const me)
 {
-	/*if(GetDen_((Racional_pt)me) < 0){
-		Set_((Racional_pt)me, GetNum_((Racional_pt)me) * -1, GetDen_((Racional_pt)me) * -1);
-	}*/
-	static char buffer[50];
-	sprintf(buffer, "%ld/%ld", GetNum_((Racional_pt)me), GetDen_((Racional_pt)me));
+	char string[50];
+	sprintf(string, "%ld/%ld", GetNum_((Racional_pt)me), GetDen_((Racional_pt)me));
+	
+	static char buffer[500];
+	strcpy(buffer, string);
+
 	return buffer;
 }
 

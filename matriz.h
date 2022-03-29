@@ -73,13 +73,19 @@ struct Matriz_Interface_st
 
     void (*destroi)(Matriz_t *me);
     /*------------------------------------------------------*/
+    void (*set)(Matriz_t *const me, unsigned int i, unsigned int j, double valor);
+
+    double(*get)(Matriz_t const *const me, unsigned int i, unsigned int j);
+
+    int (*compara_tamanho)(Matriz_t const *const me, Matriz_t const *const outro);
+    
     Matriz_pt (*resize)(Matriz_t *const me, unsigned int *tam);
 
     Matriz_pt (*ones)(Matriz_t *const me, unsigned int *tam);
 
     Matriz_pt (*identidade)(Matriz_t *const me, unsigned int *tam);
 
-    Matriz_pt (*multip_escalar)(Matriz_t *const me, unsigned int tam);
+    Matriz_pt (*multip_escalar)(Matriz_t *const me, unsigned int valor);
 
     Matriz_pt (*dot)(Matriz_t *const me, Matriz_t const *const outro);
 
@@ -100,6 +106,6 @@ struct Matriz_Interface_st
 typedef struct Matriz_Interface_st *Matriz_Interface_pt;
 
 /* protótipo do construtor   */
-Matriz_pt Matriz_constroi(Matriz_pt me, unsigned int *tam, double **matriz);
+Matriz_pt Matriz_constroi(Matriz_pt me, unsigned int *tam, double *matriz);
 
 #endif /* MATRIZ_H */

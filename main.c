@@ -1,14 +1,15 @@
 /* main.c */
-/* teste do tipo de dados meudouble */
+/* teste do tipo de dados racional e da matriz */
 #include <stdio.h>
 #include "racional.h"
+#include "matriz.h"
 
 int main ()
 {
 
-/** ------ PARTE ORIGINAL DO PROGRAMA: MEU_Racional ------*/
+/** ------ PARTE ORIGINAL DO PROGRAMA: RACIONAL ------*/
 	Racional_pt num1=NULL, num2=NULL, num3=NULL, num4=NULL;
-
+   Matriz_pt mat1=NULL, mat2=NULL, mat3=NULL, mat4=NULL;
 	/*veja que aqui neste ponto faço chamadas de algumas funções
 	 * através dos ponteiros que estão na tabela vtbl (ponteiro "metodo")
 	 * da superclasse "Numero". Como as funções desta tabela esperam
@@ -17,8 +18,46 @@ int main ()
 	 * MeuDouble_pt */
 
    printf("*********************************************************************************************\n");
+   printf("********************DEMONSTRANDO O FUNCIONAMENTO DA BIBLIOTECA MATRIZ.H**********************\n");
+   printf("*********************************************************************************************\n");
+
+   unsigned int tam[2], tam1[]={3,3}, tam2[]={4,5}, tam3[]={3,3};
+   double matriz1[]={1,2,3,4,5,6,7,8,9}, matriz2[]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, matriz3[] = {10,20,30,40,50,60,70,80,90};
+
+   printf("Foram criadas tres matrizes:\n\n");
+   printf("Mat1 =");
+   mat1 = Matriz_constroi(mat1, tam1, matriz1);
+   printf("%s", mat1->Metodo->imprime(mat1));
+
+   printf("Mat2 =");
+   mat2 = Matriz_constroi(mat2, tam2, matriz2);
+   printf("%s", mat2->Metodo->imprime(mat2));
+
+   printf("Mat3 =");
+   mat3 = Matriz_constroi(mat3, tam3, matriz3);
+   printf("%s", mat3->Metodo->imprime(mat3));
+
+   printf("Mat4 foi criada como copia de mat1\n\nMat4 =");
+   mat4 = mat1->Metodo->copia(mat1);
+   printf("%s", mat4->Metodo->imprime(mat4));
+
+   printf("Mat3 foi atribuida a mat4\n\nMat4 =");
+   mat4 = mat4->Metodo->atribui(mat3, mat4);
+   printf("%s", mat4->Metodo->imprime(mat4));
+
+   mat4->Metodo->set(mat4, 1, 1, 365);
+   printf("Mat4[1][1] foi alterado para %.2f\n\nMat4 =", mat4->Metodo->get(mat4, 1, 1));
+   printf("%s", mat4->Metodo->imprime(mat4));
+
+   tam[0] = 5;
+   tam[1] = 5;
+   mat4 = mat4->Metodo->resize(mat4, tam);
+   printf("Mat4 teve o seu tamanho reajustado para 5x5\n\nMat4 =");
+   printf("%s",mat4->Metodo->imprime(mat4));
+
+   printf("*********************************************************************************************\n");
    printf("********************DEMONSTRANDO O FUNCIONAMENTO DA BIBLIOTECA RACIONAL.H********************\n");
-   printf("*********************************************************************************************\n\n");
+   printf("*********************************************************************************************\n");
    
    num1 = Racional_constroi(num1, 45, 23);
    num2 = Racional_constroi(num2, 57, 55);
