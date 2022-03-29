@@ -14,12 +14,28 @@
 #include "numero.h" /*a interface da classe básica */
 
 struct Matriz_Interface_st;
+/*-------------------------------------------------------------*
+ *  definição da estrutura Matriz_st                           *
+ * * trouxe a definição da estrutura para o "___.h" porque vou *
+ * fazer a herança da estrutura de um "____.h" pai para        *
+ * um "_____.h" filho                                          *
+ * Aqui, iremos agregar duas "features" importantes:           *
+ *                                                             *
+ * a) uma tabela de interfaces que irá permitir acessar de     *
+ *    forma mais legível os métodos de Numero_t. O ponteiro    *
+ *    Matriz_t é convertido para Numero_t antes de ser         *
+ *    passado como argumento para as funções da classe base.   *
+ *    E o resultado retornado da classe base é convertido "de  *
+ *    volta" para "Matriz_t".                                  *
+ *                                                             *
+ * b) os atributos (valores) numéricos do Matriz_t             *
+ * ------------------------------------------------------------*/
 
 struct Matriz_st
 {
     struct Numero_st super;
     /* <== herda a "super-classe Numeros",
-     * isto é, a classe superior a Meulong int na
+     * isto é, a classe superior a double na
      * hierarquia dos números
      * Com isso, herda as operações da
      * tabela de métodos comuns a todos os Numeros
@@ -39,7 +55,7 @@ struct Matriz_st
     double **matriz;
 };
 /* ----------------------------------------------------------*
- * declaro o ponteiro para o número do tipo Matriz_t      *
+ * declaro o ponteiro para o número do tipo Matriz_t         *
  * que não estão "dentro" da tabela de funções virtuais      *
  * ----------------------------------------------------------*/
 typedef struct Matriz_st *Matriz_pt;

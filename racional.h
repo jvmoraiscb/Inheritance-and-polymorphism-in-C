@@ -15,7 +15,7 @@
 
 struct Racional_Interface_st;
 /*-------------------------------------------------------------*
- *  definição da estrutura Racional_st                      *
+ *  definição da estrutura Racional_st                         *
  * * trouxe a definição da estrutura para o "___.h" porque vou *
  * fazer a herança da estrutura de um "____.h" pai para        *
  * um "_____.h" filho                                          *
@@ -23,12 +23,12 @@ struct Racional_Interface_st;
  *                                                             *
  * a) uma tabela de interfaces que irá permitir acessar de     *
  *    forma mais legível os métodos de Numero_t. O ponteiro    *
- *    Racional_t é convertido para Numero_t antes de ser    *
+ *    Racional_t é convertido para Numero_t antes de ser       *
  *    passado como argumento para as funções da classe base.   *
  *    E o resultado retornado da classe base é convertido "de  *
- *    volta" para "Racional_t".                             *
+ *    volta" para "Racional_t".                                *
  *                                                             *
- * b) os atributos (valores) numéricos do Racional_t        *
+ * b) os atributos (valores) numéricos do Racional_t           *
  *     (FINALMENTE  !!!!   :)                                  *
  * ------------------------------------------------------------*/
 struct Racional_st
@@ -54,7 +54,7 @@ struct Racional_st
     long int *valor;
 };
 /* ----------------------------------------------------------*
- * declaro o ponteiro para o número do tipo Racional_t      *
+ * declaro o ponteiro para o número do tipo Racional_t       *
  * que não estão "dentro" da tabela de funções virtuais      *
  * ----------------------------------------------------------*/
 typedef struct Racional_st *Racional_pt;
@@ -64,56 +64,37 @@ struct Racional_Interface_st
 {
     Racional_pt (*copia)(Racional_t const *const me);
 
-    Racional_pt (*atribui)(Racional_t const *const me,
-                              Racional_t *const outro);
+    Racional_pt (*atribui)(Racional_t const *const me, Racional_t *const outro);
 
-    Racional_pt (*soma)(Racional_t const *const me,
-                           Racional_t const *const outro,
-                           Racional_t *const res);
+    Racional_pt (*soma)(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-    Racional_pt (*subt)(Racional_t const *const me,
-                           Racional_t const *const outro,
-                           Racional_t *const res);
+    Racional_pt (*subt)(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-    Racional_pt (*mult)(Racional_t const *const me,
-                           Racional_t const *const outro,
-                           Racional_t *const res);
+    Racional_pt (*mult)(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-    Racional_pt (*divd)(Racional_t const *const me,
-                           Racional_t const *const outro,
-                           Racional_t *const res);
+    Racional_pt (*divd)(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-    Racional_pt (*ac_soma)(Racional_t *const me,
-                              Racional_t const *const outro);
+    Racional_pt (*ac_soma)(Racional_t *const me, Racional_t const *const outro);
 
-    Racional_pt (*ac_subt)(Racional_t *const me,
-                              Racional_t const *const outro);
+    Racional_pt (*ac_subt)(Racional_t *const me, Racional_t const *const outro);
 
-    Racional_pt (*ac_mult)(Racional_t *const me,
-                              Racional_t const *const outro);
+    Racional_pt (*ac_mult)(Racional_t *const me, Racional_t const *const outro);
 
-    Racional_pt (*ac_divd)(Racional_t *const me,
-                              Racional_t const *const outro);
+    Racional_pt (*ac_divd)(Racional_t *const me, Racional_t const *const outro);
 
-    int (*compara)(Racional_t const *const me,
-                   Racional_t const *const outro);
+    int (*compara)(Racional_t const *const me, Racional_t const *const outro);
 
     char *(*imprime)(Racional_t const *const me);
 
     void (*destroi)(Racional_t *me);
     /*------------------------------------------------------*/
-    void (*get)(Racional_t const *const me,
-                long int *ptNum,
-                long int *ptDen);
+    void (*get)(Racional_t const *const me, long int *ptNum, long int *ptDen);
 
-    void (*set)(Racional_t *const me,
-                long int valorNum,
-                long int valorDen);
+    void (*set)(Racional_t *const me, long int valorNum, long int valorDen);
 
     long int (*getNum)(Racional_t const *const me);
 
-    void (*setNum)(Racional_t *const me,
-                   long int valorNum);
+    void (*setNum)(Racional_t *const me, long int valorNum);
 
     long int (*getDen)(Racional_t const *const me);
 
@@ -124,8 +105,6 @@ struct Racional_Interface_st
 typedef struct Racional_Interface_st *Racional_Interface_pt;
 
 /* protótipo do construtor   */
-Racional_pt Racional_constroi(Racional_pt me,
-                                 long int valorNum,
-                                 long int valorDen);
+Racional_pt Racional_constroi(Racional_pt me, long int valorNum, long int valorDen);
 
 #endif /* RACIONAL_H */

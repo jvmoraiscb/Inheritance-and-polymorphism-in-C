@@ -70,39 +70,25 @@
  * -----------------------------------------------------------------*/
 static Numero_pt copia_(Numero_t const *const me);
 
-static Numero_pt atribui_(Numero_t const *const me,
-						  Numero_t *const outro);
+static Numero_pt atribui_(Numero_t const *const me, Numero_t *const outro);
 
-static Numero_pt soma_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res);
+static Numero_pt soma_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res);
 
-static Numero_pt subt_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res);
+static Numero_pt subt_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res);
 
-static Numero_pt mult_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res);
+static Numero_pt mult_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res);
 
-static Numero_pt divd_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res);
+static Numero_pt divd_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res);
 
-static Numero_pt ac_soma_(Numero_t *const me,
-						  Numero_t const *const outro);
+static Numero_pt ac_soma_(Numero_t *const me, Numero_t const *const outro);
 
-static Numero_pt ac_subt_(Numero_t *const me,
-						  Numero_t const *const outro);
+static Numero_pt ac_subt_(Numero_t *const me, Numero_t const *const outro);
 
-static Numero_pt ac_mult_(Numero_t *const me,
-						  Numero_t const *const outro);
+static Numero_pt ac_mult_(Numero_t *const me, Numero_t const *const outro);
 
-static Numero_pt ac_divd_(Numero_t *const me,
-						  Numero_t const *const outro);
+static Numero_pt ac_divd_(Numero_t *const me, Numero_t const *const outro);
 
-static int compara_(Numero_t const *const me,
-					Numero_t const *const outro);
+static int compara_(Numero_t const *const me, Numero_t const *const outro);
 
 static char *imprime_(Numero_t const *const me);
 
@@ -113,39 +99,25 @@ static void destroi_(Numero_t *me);
  * ----------------------------------------------------------------------*/
 static Racional_pt Copia_(Racional_t const *const me);
 
-static Racional_pt Atribui_(Racional_t const *const me,
-							   Racional_t *const outro);
+static Racional_pt Atribui_(Racional_t const *const me, Racional_t *const outro);
 
-static Racional_pt Soma_(Racional_t const *const me,
-							Racional_t const *const outro,
-							Racional_t *const res);
+static Racional_pt Soma_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-static Racional_pt Subt_(Racional_t const *const me,
-							Racional_t const *const outro,
-							Racional_t *const res);
+static Racional_pt Subt_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-static Racional_pt Mult_(Racional_t const *const me,
-							Racional_t const *const outro,
-							Racional_t *const res);
+static Racional_pt Mult_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-static Racional_pt Divd_(Racional_t const *const me,
-							Racional_t const *const outro,
-							Racional_t *const res);
+static Racional_pt Divd_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res);
 
-static Racional_pt Ac_Soma_(Racional_t *const me,
-							   Racional_t const *const outro);
+static Racional_pt Ac_Soma_(Racional_t *const me, Racional_t const *const outro);
 
-static Racional_pt Ac_Subt_(Racional_t *const me,
-							   Racional_t const *const outro);
+static Racional_pt Ac_Subt_(Racional_t *const me, Racional_t const *const outro);
 
-static Racional_pt Ac_Mult_(Racional_t *const me,
-							   Racional_t const *const outro);
+static Racional_pt Ac_Mult_(Racional_t *const me, Racional_t const *const outro);
 
-static Racional_pt Ac_Divd_(Racional_t *const me,
-							   Racional_t const *const outro);
+static Racional_pt Ac_Divd_(Racional_t *const me, Racional_t const *const outro);
 
-static int Compara_(Racional_t const *const me,
-					Racional_t const *const outro);
+static int Compara_(Racional_t const *const me, Racional_t const *const outro);
 
 static char *Imprime_(Racional_t const *const me);
 
@@ -156,36 +128,27 @@ static void Destroi_(Racional_t *me);
  * funcoes da classe virtual básica número                 *
  * protótipos das funçoes get e set, por exemplo           *
  *---------------------------------------------------------*/
-static void Get_(Racional_t const *const me,
-				 long int *valorNum,
-				 long int *valorDen);
+static void Get_(Racional_t const *const me, long int *valorNum, long int *valorDen);
 
-static void Set_(Racional_t *const me,
-				 long int valorNum,
-				 long int valorDen);
+static void Set_(Racional_t *const me, long int valorNum, long int valorDen);
 
 static long int GetNum_(Racional_t const *const me);
 
-static void SetNum_(Racional_t *const me,
-					long int valorNum);
+static void SetNum_(Racional_t *const me, long int valorNum);
 
 static long int GetDen_(Racional_t const *const me);
 
-static void SetDen_(Racional_t *const me,
-					long int valorDen);
+static void SetDen_(Racional_t *const me, long int valorDen);
 
-static void reduz_racional_euclides(Racional_pt me);
+static void Reduz_racional_euclides(Racional_pt me);
 
-/*---------------------------------------------*
- * implementação do construtor                  *
+/*----------------------------------------------*
+ *          implementação do construtor         *
  * ---------------------------------------------*/
-Racional_pt Racional_constroi(Racional_pt me,
-								 long int valorNum,
-								 long int valorDen)
-{
+Racional_pt Racional_constroi(Racional_pt me, long int valorNum, long int valorDen){
 	// garante que o denominador nao sera zero
 	if(valorDen == 0){
-		printf("O denominador nao pode ser zero, o ponteiro do racional recebeu o valor NULL\n");
+		printf("ERRO: O denominador nao pode ser zero! O ponteiro do racional recebeu o valor NULL\n");
 		return NULL;	
 	}
 
@@ -252,9 +215,8 @@ Racional_pt Racional_constroi(Racional_pt me,
 	me->valor = (long int *)malloc(2 * sizeof(long int));
 	if (me->valor == NULL)
 	{ /*erro!!! não conseguiu alocar */
-		printf("Erro na alocação de memória em Num_Constroi");
-		printf("Nao alocou o valor long int");
-		exit(1);
+		printf("ERRO: Num_Constroi nao alocou memoria!\n");
+		return NULL;
 	}
 
 	/* copia o long int passado como parâmetro */
@@ -266,7 +228,6 @@ Racional_pt Racional_constroi(Racional_pt me,
 	me->valor[0] = valorNum;
 	me->valor[1] = valorDen;
 
-	//reduz_racional_euclides((Racional_pt)me);
 	return (me);
 
 	/* ------------------------------------------------------------
@@ -284,8 +245,11 @@ Racional_pt Racional_constroi(Racional_pt me,
 /* ---------------algoritmo de euclides ------------*
  * note que esta função NÃO está no meu_racional.h  *
  * -------------------------------------------------*/
-static void reduz_racional_euclides(Racional_pt me)
-{
+static void Reduz_racional_euclides(Racional_pt me){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return;
+    }
 	int sinal;
 	if ((me->valor[0] * me->valor[1]) < 0)
 	{
@@ -318,21 +282,22 @@ static void reduz_racional_euclides(Racional_pt me)
 	me->valor[1] = labs(me->valor[1]) / a;
 }
 /*---------------------------------------------*
- * implementação do set e get                   *
+ *         implementação do set e get          *
  * ---------------------------------------------*/
-static inline void Get_(Racional_t const *const me,
-						long int *ptNum,
-						long int *ptDen)
-
-{
+static inline void Get_(Racional_t const *const me, long int *ptNum, long int *ptDen){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return;
+    }
 	*ptNum = (me->valor[0]);
 	*ptDen = (me->valor[1]);
 }
 
-static inline void Set_(Racional_t *const me,
-						long int valorNum,
-						long int valorDen)
-{
+static inline void Set_(Racional_t *const me, long int valorNum, long int valorDen){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return;
+    }
 	if(valorDen < 0){
 		valorNum = valorNum * -1;
 		valorDen = valorDen * -1;
@@ -342,25 +307,35 @@ static inline void Set_(Racional_t *const me,
 	me->valor[1] = valorDen;
 }
 
-static inline long int GetNum_(Racional_t const *const me)
-{
+static inline long int GetNum_(Racional_t const *const me){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return 1;
+    }
 	return ((me->valor[0]));
 }
 
-static inline void SetNum_(Racional_t *const me,
-						   long int valorNum)
-{
+static inline void SetNum_(Racional_t *const me, long int valorNum){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return;
+    }
 	me->valor[0] = valorNum;
 }
 
-static inline long int GetDen_(Racional_t const *const me)
-{
+static inline long int GetDen_(Racional_t const *const me){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return 1;
+    }
 	return (me->valor[1]);
 }
 
-static inline void SetDen_(Racional_t *const me,
-						   long int valorDen)
-{
+static inline void SetDen_(Racional_t *const me, long int valorDen){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return;
+    }
 	if(valorDen < 0){
 		me->valor[0] = me->valor[0] * -1;
 		valorDen = valorDen * -1;
@@ -371,253 +346,218 @@ static inline void SetDen_(Racional_t *const me,
 /*------------------------------------------------------*
  * IMPLEMENTAÇÃO DAS FUNÇÕES VIRTUAIS           *
  * -----------------------------------------------------*/
-static inline Racional_pt Copia_(Racional_t const *const me)
-{
-	return ((Racional_pt)
-				copia_((Numero_pt)me));
+static inline Racional_pt Copia_(Racional_t const *const me){
+	return ((Racional_pt) copia_((Numero_pt)me));
 }
 
-static Numero_pt copia_(Numero_t const *const me)
-{
-	assert(me != NULL);
+static Numero_pt copia_(Numero_t const *const me){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	Numero_pt outro = NULL;
-	outro = (Numero_pt)Racional_constroi((Racional_pt)outro,
-										 GetNum_((Racional_pt)me),
-										 GetDen_((Racional_pt)me));									 
+	outro = (Numero_pt)Racional_constroi((Racional_pt)outro, GetNum_((Racional_pt)me), GetDen_((Racional_pt)me));									 
 	return outro;
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Atribui_(Racional_t const *const me,
-									  Racional_t *const outro)
-{
-	return ((Racional_pt) atribui_	((Numero_pt)me,
-						 				(Numero_pt)outro));
+static inline Racional_pt Atribui_(Racional_t const *const me, Racional_t *const outro){
+	return ((Racional_pt) atribui_	((Numero_pt)me, (Numero_pt)outro));
 }
 
-static Numero_pt atribui_(Numero_t const *const me,
-						  Numero_t *const outro)
-{
-	Set_((Racional_pt)outro,
-		 GetNum_((Racional_pt)me),
-		 GetDen_((Racional_pt)me));
+static Numero_pt atribui_(Numero_t const *const me, Numero_t *const outro){
+	if(me == NULL || outro == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
+	Set_((Racional_pt)outro, GetNum_((Racional_pt)me), GetDen_((Racional_pt)me));
 
 	return (Numero_pt)outro;
 }
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Soma_(Racional_t const *const me,
-								   Racional_t const *const outro,
-								   Racional_t *const res)
-{
-	return ((Racional_pt)
-				soma_((Numero_pt)me,
-					  (Numero_pt)outro,
-					  (Numero_pt)res));
+static inline Racional_pt Soma_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res){
+	return ((Racional_pt) soma_((Numero_pt)me, (Numero_pt)outro, (Numero_pt)res));
 }
 
-static Numero_pt soma_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res)
-{
-	
+static Numero_pt soma_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res){	
+	if(me == NULL || outro == NULL || res == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetDen_((Racional_pt)outro) + GetNum_((Racional_pt)outro) * GetDen_((Racional_pt)me);
 	temp_den = GetDen_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 
 	Set_((Racional_pt)res, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)res);
+	Reduz_racional_euclides((Racional_pt)res);
 
 	return (Numero_pt)res;
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Subt_(Racional_t const *const me,
-								   Racional_t const *const outro,
-								   Racional_t *const res)
-{
-	return ((Racional_pt)
-				subt_((Numero_pt)me,
-					  (Numero_pt)outro,
-					  (Numero_pt)res));
+static inline Racional_pt Subt_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res){
+	return ((Racional_pt)subt_((Numero_pt)me, (Numero_pt)outro, (Numero_pt)res));
 }
-static Numero_pt subt_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res)
-{
+static Numero_pt subt_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res){
+	if(me == NULL || outro == NULL || res == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetDen_((Racional_pt)outro) - GetNum_((Racional_pt)outro) * GetDen_((Racional_pt)me);
 	temp_den = GetDen_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 
 	Set_((Racional_pt)res, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)res);
+	Reduz_racional_euclides((Racional_pt)res);
 
 	return (Numero_pt)res;
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Mult_(Racional_t const *const me,
-								   Racional_t const *const outro,
-								   Racional_t *const res)
-{
-	return ((Racional_pt)
-				mult_((Numero_pt)me,
-					  (Numero_pt)outro,
-					  (Numero_pt)res));
+static inline Racional_pt Mult_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res){
+	return ((Racional_pt)mult_((Numero_pt)me, (Numero_pt)outro, (Numero_pt)res));
 }
 
-static Numero_pt mult_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res)
-{
+static Numero_pt mult_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res){
+	if(me == NULL || outro == NULL || res == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetNum_((Racional_pt)outro);
 	temp_den = GetDen_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 	
 	Set_((Racional_pt)res, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)res);
+	Reduz_racional_euclides((Racional_pt)res);
 
 	return ((Numero_pt)res);
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Divd_(Racional_t const *const me,
-								   Racional_t const *const outro,
-								   Racional_t *const res)
-{
-	return ((Racional_pt)
-				divd_((Numero_pt)me,
-					  (Numero_pt)outro,
-					  (Numero_pt)res));
+static inline Racional_pt Divd_(Racional_t const *const me, Racional_t const *const outro, Racional_t *const res){
+	return ((Racional_pt)divd_((Numero_pt)me, (Numero_pt)outro, (Numero_pt)res));
 }
 
-static Numero_pt divd_(Numero_t const *const me,
-					   Numero_t const *const outro,
-					   Numero_t *const res)
-{
+static Numero_pt divd_(Numero_t const *const me, Numero_t const *const outro, Numero_t *const res){
+	if(me == NULL || outro == NULL || res == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 	temp_den = GetDen_((Racional_pt)me) * GetNum_((Racional_pt)outro);
 	
 	Set_((Racional_pt)res, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)res);
+	Reduz_racional_euclides((Racional_pt)res);
 
 	return ((Numero_pt)res);
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Ac_Soma_(Racional_t *const me,
-									  Racional_t const *const outro)
-{
-	return ((Racional_pt)
-				ac_soma_((Numero_pt)me,
-						 (Numero_pt)outro));
+static inline Racional_pt Ac_Soma_(Racional_t *const me, Racional_t const *const outro){
+	return ((Racional_pt)ac_soma_((Numero_pt)me, (Numero_pt)outro));
 }
 
-static Numero_pt ac_soma_(Numero_t *const me,
-						  Numero_t const *const outro)
-{
+static Numero_pt ac_soma_(Numero_t *const me, Numero_t const *const outro){
+	if(me == NULL || outro == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetDen_((Racional_pt)outro) + GetNum_((Racional_pt)outro) * GetDen_((Racional_pt)me);
 	temp_den = GetDen_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 
 	Set_((Racional_pt)me, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)me);
+	Reduz_racional_euclides((Racional_pt)me);
 
 	return (Numero_pt)me;
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Ac_Subt_(Racional_t *const me,
-									  Racional_t const *const outro)
-{
-	return ((Racional_pt)
-				ac_subt_((Numero_pt)me,
-						 (Numero_pt)outro));
+static inline Racional_pt Ac_Subt_(Racional_t *const me, Racional_t const *const outro){
+	return ((Racional_pt)ac_subt_((Numero_pt)me, (Numero_pt)outro));
 }
 
-static Numero_pt ac_subt_(Numero_t *const me,
-						  Numero_t const *const outro)
-{
+static Numero_pt ac_subt_(Numero_t *const me, Numero_t const *const outro){
+	if(me == NULL || outro == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetDen_((Racional_pt)outro) - GetNum_((Racional_pt)outro) * GetDen_((Racional_pt)me);
 	temp_den = GetDen_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 
 	Set_((Racional_pt)me, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)me);
+	Reduz_racional_euclides((Racional_pt)me);
 
 	return (Numero_pt)me;
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Ac_Mult_(Racional_t *const me,
-									  Racional_t const *const outro)
-{
-	return ((Racional_pt)
-				ac_mult_((Numero_pt)me,
-						 (Numero_pt)outro));
+static inline Racional_pt Ac_Mult_(Racional_t *const me, Racional_t const *const outro){
+	return ((Racional_pt)ac_mult_((Numero_pt)me, (Numero_pt)outro));
 }
 
-static Numero_pt ac_mult_(Numero_t *const me,
-						  Numero_t const *const outro)
-{
+static Numero_pt ac_mult_(Numero_t *const me, Numero_t const *const outro){
+	if(me == NULL || outro == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetNum_((Racional_pt)outro);
 	temp_den = GetDen_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 	
 	Set_((Racional_pt)me, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)me);
+	Reduz_racional_euclides((Racional_pt)me);
 
 	return ((Numero_pt)me);
 }
 
 /*-----------------------------------------------------------------*/
-static inline Racional_pt Ac_Divd_(Racional_t *const me,
-									  Racional_t const *const outro)
-{
-	return ((Racional_pt)
-				ac_divd_((Numero_pt)me,
-						 (Numero_pt)outro));
+static inline Racional_pt Ac_Divd_(Racional_t *const me, Racional_t const *const outro){
+	return ((Racional_pt)ac_divd_((Numero_pt)me, (Numero_pt)outro));
 }
 
-static Numero_pt ac_divd_(Numero_t *const me,
-						  Numero_t const *const outro)
-{
+static Numero_pt ac_divd_(Numero_t *const me, Numero_t const *const outro){
+	if(me == NULL || outro == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	long int temp_num, temp_den;
 	temp_num = GetNum_((Racional_pt)me) * GetDen_((Racional_pt)outro);
 	temp_den = GetDen_((Racional_pt)me) * GetNum_((Racional_pt)outro);
 	
 	Set_((Racional_pt)me, temp_num, temp_den);
 
-	reduz_racional_euclides((Racional_pt)me);
+	Reduz_racional_euclides((Racional_pt)me);
 
 	return ((Numero_pt)me);
 }
 
 /*-----------------------------------------------------------------*/
-static inline int Compara_(Racional_t const *const me,
-						   Racional_t const *const outro)
-{
-	return (compara_((Numero_pt)me,
-					 (Numero_pt)outro));
+static inline int Compara_(Racional_t const *const me, Racional_t const *const outro){
+	return (compara_((Numero_pt)me, (Numero_pt)outro));
 }
 
-static int compara_(Numero_t const *const me,
-					Numero_t const *const outro)
-{
+static int compara_(Numero_t const *const me, Numero_t const *const outro){
+	if(me == NULL || outro == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return 2;
+    }
 	double valor_me, valor_outro;
 	Racional_pt me_temp = NULL, outro_temp = NULL;
 
 	me_temp = Racional_constroi(me_temp, GetNum_((Racional_pt)me), GetDen_((Racional_pt)me));
 	outro_temp = Racional_constroi(outro_temp, GetNum_((Racional_pt)outro), GetDen_((Racional_pt)outro));
-	reduz_racional_euclides((Racional_pt)me_temp);
-	reduz_racional_euclides((Racional_pt)outro_temp);
+	Reduz_racional_euclides((Racional_pt)me_temp);
+	Reduz_racional_euclides((Racional_pt)outro_temp);
 	valor_me = (double)GetNum_((Racional_pt)me_temp) / (double)GetDen_((Racional_pt)me_temp);
 	valor_outro = (double)GetNum_((Racional_pt)outro_temp) / (double)GetDen_((Racional_pt)outro_temp);
 
@@ -642,12 +582,14 @@ static int compara_(Numero_t const *const me,
 }
 
 /*-----------------------------------------------------------------*/
-static inline char *Imprime_(Racional_t const *const me)
-{
+static inline char *Imprime_(Racional_t const *const me){
 	return (imprime_((Numero_pt)me));
 }
-static char *imprime_(Numero_t const *const me)
-{
+static char *imprime_(Numero_t const *const me){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return NULL;
+    }
 	char string[50];
 	sprintf(string, "%ld/%ld", GetNum_((Racional_pt)me), GetDen_((Racional_pt)me));
 	
@@ -657,16 +599,19 @@ static char *imprime_(Numero_t const *const me)
 	return buffer;
 }
 
-/*---------------------------------------------*
- * implementação do destrutor                   *
+/*----------------------------------------------*
+ *          implementação do destrutor          *
  * ---------------------------------------------*/
 /*-----------------------------------------------------------------*/
 static inline void Destroi_(Racional_t *me)
 {
 	destroi_((Numero_t *)me);
 }
-static void destroi_(Numero_t *me)
-{
+static void destroi_(Numero_t *me){
+	if(me == NULL){
+        printf("ERRO: Um dos ponteiros não foi alocado!\n");
+        return;
+    }
 	/* primeiro destroi o valor long int */
 	free(((Racional_pt)me)->valor);
 	/*... e só agora destroi-se o número virtual da classe base */
